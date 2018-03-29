@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Photon.SocketServer;
 using ExitGames.Logging;
 using System.IO;
+using ExitGames.Logging.Log4Net;
+using log4net.Config;
 
 namespace NoRServer
 {
@@ -22,6 +24,7 @@ namespace NoRServer
         /// <returns></returns>
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
+            Log.Info("一个客户端连接");
             return new ClientPeer(initRequest);
         }
 
@@ -32,8 +35,18 @@ namespace NoRServer
         protected override void Setup()
         {
             //日志的初始化
-            //1.日志文件的位置
-            
+            //0.配置日志所在的路径
+            log4net.GlobalContext.Properties["Photon:ApplicationLogPath"] = Path.Combine(this.ApplicationRootPath, "log");
+            //1.日志的配置文件的位置
+            FileInfo cfgLogFile = new FileInfo(Path.Combine(this.BinaryPath, "log4net.config"));
+            if (cfgLogFile.Exists)
+            {
+                //2.使用日志插件(photon引擎调用)
+                LogManager.SetLoggerFactory(Log4NetLoggerFactory.Instance);
+                //3.读取配置文件(log4net插件读取)
+                XmlConfigurator.ConfigureAndWatch(cfgLogFile);
+            }
+            Log.Info("服务器开始");
         }
 
 
@@ -42,7 +55,7 @@ namespace NoRServer
         /// </summary>
         protected override void TearDown()
         {
-            throw new NotImplementedException();
+            Log.Info("服务器关闭");
         }
     }
 }

@@ -1,0 +1,6 @@
+G:\NoR\nfr git\need-for-racing\Server\NoRServer\bin\Debug\NoRServer.dll
+G:\NoR\nfr git\need-for-racing\Server\NoRServer\bin\Debug\NoRServer.pdb
+G:\NoR\nfr git\need-for-racing\Server\NoRServer\obj\Debug\NoRServer.csprojResolveAssemblyReference.cache
+G:\NoR\nfr git\need-for-racing\Server\NoRServer\obj\Debug\NoRServer.csproj.CoreCompileInputs.cache
+G:\NoR\nfr git\need-for-racing\Server\NoRServer\obj\Debug\NoRServer.dll
+G:\NoR\nfr git\need-for-racing\Server\NoRServer\obj\Debug\NoRServer.pdb

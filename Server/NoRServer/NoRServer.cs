@@ -13,10 +13,6 @@ namespace NoRServer
 {
     public class NoRServer : ApplicationBase
     {
-        //用于打印日志文件的对象，固定写法,要给它初始化
-        public static readonly ILogger Log = LogManager.GetCurrentClassLogger();
-
-
         /// <summary>
         /// 当一个客户端请求连接
         /// </summary>
@@ -24,7 +20,7 @@ namespace NoRServer
         /// <returns></returns>
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
-            Log.Info("一个客户端连接");
+            LogInit.Log.Info("一个客户端连接");
             return new ClientPeer(initRequest);
         }
 
@@ -46,7 +42,7 @@ namespace NoRServer
                 //3.读取配置文件(log4net插件读取)
                 XmlConfigurator.ConfigureAndWatch(cfgLogFile);
             }
-            Log.Info("服务器开始");
+            LogInit.Log.Info("服务器开始");
         }
 
 
@@ -55,7 +51,15 @@ namespace NoRServer
         /// </summary>
         protected override void TearDown()
         {
-            Log.Info("服务器关闭");
+            LogInit.Log.Info("服务器关闭");
         }
+    }
+
+
+
+    class LogInit
+    {
+        //用于打印日志文件的对象，固定写法,要给它初始化
+        public static readonly ILogger Log = LogManager.GetCurrentClassLogger();
     }
 }

@@ -22,7 +22,7 @@ namespace NoRServer
         //服务器断开后工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
-            
+            LogInit.Log.Info("客户端断开链接");
         }
 
         //服务器启动工作

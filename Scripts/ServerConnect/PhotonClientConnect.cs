@@ -6,8 +6,17 @@ using System.Threading;
 
 public class PhotonClientConnect:MonoBehaviour,IPhotonPeerListener{
 
+    public static PhotonClientConnect Get { get { return instance; } }
+    public static PhotonPeer PhotonPeer { get{ return photonPeer; } }
+
+
     private static PhotonClientConnect instance = null;
-    private PhotonPeer photonPeer;
+    private static PhotonPeer photonPeer;
+
+    private string udpAddress = "118.24.85.105:5055";
+    private string appName = "NoR";
+
+    private Dictionary<byte, object> dataDct;
 
     private void Awake()
     {
@@ -38,7 +47,7 @@ public class PhotonClientConnect:MonoBehaviour,IPhotonPeerListener{
 
     private void Connect()
     {
-        photonPeer.Connect("118.24.85.105:5055", "NoR");
+        photonPeer.Connect(udpAddress, appName);
     }
 
 
@@ -67,7 +76,22 @@ public class PhotonClientConnect:MonoBehaviour,IPhotonPeerListener{
     /// <param name="eventData"></param>
     public void OnEvent(EventData eventData)
     {
-        throw new System.NotImplementedException();
+        switch (eventData.Code)
+        {
+            case (byte)EOperationCode.ConnectText:
+                dataDct = eventData.Parameters;
+                object data1;
+                dataDct.TryGetValue((byte)ETextCode.One,out data1);
+                object data2;
+                dataDct.TryGetValue((byte)ETextCode.Two, out data2);
+
+                print("data1 " + data1);
+                print("data2 " + data2);
+                break;
+
+            default:
+                break;
+        }
     }
 
 
@@ -77,7 +101,20 @@ public class PhotonClientConnect:MonoBehaviour,IPhotonPeerListener{
     /// <param name="operationResponse"></param>
     public void OnOperationResponse(OperationResponse operationResponse)
     {
-        
+        switch (operationResponse.OperationCode)
+        {
+            case (byte)EOperationCode.ConnectText:
+                print("收到来自服务器的请求");
+                dataDct = operationResponse.Parameters;
+                object data1;
+                object data2;
+                dataDct.TryGetValue((byte)ETextCode.One, out data1);                
+                dataDct.TryGetValue((byte)ETextCode.Two, out data2);
+                print(data1.ToString() + "\n" + data2.ToString());
+                break;
+            default:
+                break;
+        }
     }
 
 

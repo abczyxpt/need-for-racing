@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-configuration xmlns="urn:nhibernate-configuration-2.2">
+  <!--Nhibernate对数据库操作是基于ISession(会话),可以理解为SqlConnection的封装,可通过SessionFactory创建-->
+  <session-factory>
+    <!--连接提供程序-->
+    <property name="connection.provider">NHibernate.Connection.DriverConnectionProvider</property>
+    
+    <!--Nhibernate是一个支持多个数据库的Orm框架,然而几乎每个数据库产品都对Sql的实现都有所不同-->
+    <!--Nhibernate通过dialect(方言)消除数据库之间的差异-->
+    <property name="dialect">NHibernate.Dialect.MySQL5Dialect</property>
+    <!--连接的数据库名字-->
+    <property name="connection.driver_class">NHibernate.Driver.MySqlDataDriver</property>
+    
+    <!--连接字符串-->
+    <property name="connection.connection_string">
+      Server=localhost;Database= norgamedb;User ID=root;Password=1357911;
+    </property>
+    <!--是否在调试的时候打印Sql语句-->
+    <property name="show_sql">true</property>
+  </session-factory>
+</hibernate-configuration>

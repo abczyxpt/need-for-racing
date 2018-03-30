@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="NoRServer"
+                   namespace="NoRServer.Model">
+    <!--类名,表与表对应-->
+    <class name ="User" table ="users">
+        
+        <!--组件之间的对应-->
+        <!--组件标签  数据库表中列名  类型-->
+        <id name ="Id" column ="id" type="Int32">
+            <!--generator 表示类自动生成 , native表示本地自带生成器-->
+            <generator class="native"/>
+        </id>
+
+        <!--组件用Id，其余的用Property-->
+        <property name="Username" column="username" type="String" />
+        <property name="Password" column="password" type="String" />
+        <property name="Registerdate" column ="registerdate" type ="String" />
+
+    </class>
+  
+</hibernate-mapping>

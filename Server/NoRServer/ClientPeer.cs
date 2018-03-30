@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
+using NoRServer.Manager;
+using NoRServer.Model;
 
 namespace NoRServer
 {
@@ -39,7 +41,7 @@ namespace NoRServer
                     LogInit.Log.Info(ETextCode.One.ToString() + "的值为" + textOneData.ToString() + "\n");
                     LogInit.Log.Info(ETextCode.Two.ToString() + "的值为" + textTwoData.ToString() + "\n");
 
-                    AddData();
+                    AddData(textOneData.ToString(), textTwoData.ToString());
                     //回传数据
                     OperationResponse operation = new OperationResponse((byte)EOperationCode.ConnectText);
                     dictionary = new Dictionary<byte, object>
@@ -68,11 +70,11 @@ namespace NoRServer
             }
         }
 
-        private void AddData()
+        private void AddData(string name,string psw)
         {
-            //IUserManager userManager = new UserManager();
-            //User user = new User() { Username = "ybsb", Password = "ybsb" };
-            //userManager.Add(user);
+            IUserManager userManager = new UserManager();
+            User user = new User() { Username = name, Password = psw };
+            userManager.Add(user);
         }
     }
 }

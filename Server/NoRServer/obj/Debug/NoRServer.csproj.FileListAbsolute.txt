@@ -5,6 +5,7 @@ G:\NoR\nfr git\need-for-racing\Server\NoRServer\obj\Debug\NoRServer.dll
 G:\NoR\nfr git\need-for-racing\Server\NoRServer\obj\Debug\NoRServer.pdb
 G:\NoR\nfr git\need-for-racing\Server\NoRServer\bin\Debug\log4net.config
 G:\NoR\nfr git\need-for-racing\Server\NoRServer\bin\Debug\log4net.dll
-C:\我\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\NoRServer\bin\log4net.config
 C:\我\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\NoRServer\bin\NoRServer.dll
 C:\我\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\NoRServer\bin\NoRServer.pdb
+C:\我\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\NoRServer\bin\NoRServer.dll.config
+C:\我\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\NoRServer\bin\log4net.config

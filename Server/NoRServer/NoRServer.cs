@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Photon.SocketServer;
+﻿using Photon.SocketServer;
 using ExitGames.Logging;
 using System.IO;
 using ExitGames.Logging.Log4Net;
@@ -61,5 +56,6 @@ namespace NoRServer
     {
         //用于打印日志文件的对象，固定写法,要给它初始化
         public static readonly ILogger Log = LogManager.GetCurrentClassLogger();
+        
     }
 }

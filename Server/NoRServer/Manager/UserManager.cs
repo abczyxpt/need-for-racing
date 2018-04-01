@@ -11,6 +11,8 @@ namespace NoRServer.Manager
 {
     class UserManager : IUserManager
     {
+        private static UserManager instance = null;
+        public static UserManager Get => instance ?? (instance = new UserManager());
 
         public void Add(User user)
         {
@@ -22,7 +24,6 @@ namespace NoRServer.Manager
                     transaction.Commit();
                 }
             }
-            
         }
 
         public ICollection<User> GetAllUsers()

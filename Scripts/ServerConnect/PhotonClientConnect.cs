@@ -13,10 +13,11 @@ public class PhotonClientConnect:MonoBehaviour,IPhotonPeerListener{
     private static PhotonClientConnect instance = null;
     private static PhotonPeer photonPeer;
 
-    private string udpAddress = "118.24.85.105:5055";
-    private string appName = "NoR";
+    private string udpAddress = ServerIpCfg.udpAdress;
+    private string appName = ServerIpCfg.appName;
 
-    private Dictionary<byte, object> dataDct;
+    private Dictionary<byte, object> dataDict;                          //从服务器收到的数据
+    private Dictionary<EOperationCode, ClientRequest> operationDict;    //请求的相应的类别
 
     private void Awake()
     {
@@ -76,14 +77,15 @@ public class PhotonClientConnect:MonoBehaviour,IPhotonPeerListener{
     /// <param name="eventData"></param>
     public void OnEvent(EventData eventData)
     {
+        dataDict = eventData.Parameters;
         switch (eventData.Code)
         {
             case (byte)EOperationCode.ConnectText:
-                dataDct = eventData.Parameters;
+                
                 object data1;
-                dataDct.TryGetValue((byte)ETextCode.One,out data1);
+                dataDict.TryGetValue((byte)ETextCode.One,out data1);
                 object data2;
-                dataDct.TryGetValue((byte)ETextCode.Two, out data2);
+                dataDict.TryGetValue((byte)ETextCode.Two, out data2);
 
                 print("data1 " + data1);
                 print("data2 " + data2);
@@ -92,28 +94,40 @@ public class PhotonClientConnect:MonoBehaviour,IPhotonPeerListener{
             default:
                 break;
         }
+        dataDict = new Dictionary<byte, object>();
     }
 
 
     /// <summary>
-    /// 客户端向服务端发起请求被相应回来的结果
+    /// 客户端收到向服务端发起请求被相应回来的结果
     /// </summary>
     /// <param name="operationResponse"></param>
     public void OnOperationResponse(OperationResponse operationResponse)
     {
-        switch (operationResponse.OperationCode)
+        #region 测试用
+        dataDict = operationResponse.Parameters;
+        switch ((EOperationCode)operationResponse.OperationCode)
         {
-            case (byte)EOperationCode.ConnectText:
+            case EOperationCode.ConnectText:
                 print("收到来自服务器的请求");
-                dataDct = operationResponse.Parameters;
                 object data1;
                 object data2;
-                dataDct.TryGetValue((byte)ETextCode.One, out data1);                
-                dataDct.TryGetValue((byte)ETextCode.Two, out data2);
+                dataDict.TryGetValue((byte)ETextCode.One, out data1);
+                dataDict.TryGetValue((byte)ETextCode.Two, out data2);
                 print(data1.ToString() + "\n" + data2.ToString());
                 break;
+                
             default:
                 break;
+        }
+
+        dataDict = new Dictionary<byte, object>();
+        #endregion
+
+        ClientRequest clientRequest = null ;
+        if (operationDict.TryGetValue((EOperationCode)operationResponse.OperationCode,out clientRequest))
+        {
+            clientRequest.OnOperationResponse(operationResponse);
         }
     }
 
@@ -122,4 +136,15 @@ public class PhotonClientConnect:MonoBehaviour,IPhotonPeerListener{
     {
         print(statusCode);
     }
+
+    public void AddRequest(ClientRequest clientRequest)
+    {
+        operationDict.Add(clientRequest.eOperationCode, clientRequest);
+    }
+
+    public void RemoveRequest(ClientRequest clientRequest)
+    {
+        operationDict.Remove(clientRequest.eOperationCode);
+    }
+    
 }

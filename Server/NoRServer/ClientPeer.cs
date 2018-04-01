@@ -4,6 +4,8 @@ using Photon.SocketServer;
 using PhotonHostRuntimeInterfaces;
 using NoRServer.Manager;
 using NoRServer.Model;
+using NoRServer.Handle;
+using NoRServer.Tools;
 
 namespace NoRServer
 {
@@ -27,6 +29,7 @@ namespace NoRServer
         //服务器收到客户端请求
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
+            #region 测试用代码
             switch (operationRequest.OperationCode)
             {
                 case (byte)EOperationCode.ConnectText:
@@ -68,13 +71,17 @@ namespace NoRServer
                 default:
                     break;
             }
+
+            #endregion
+            
+            DictTool.TryGetHandle(NoRServer.Get.handleDict, (EOperationCode)operationRequest.OperationCode, out BaseHandle handle);
+            handle.OnOperationRequest(operationRequest, sendParameters, this);
         }
 
         private void AddData(string name,string psw)
         {
-            IUserManager userManager = new UserManager();
             User user = new User() { Username = name, Password = psw };
-            userManager.Add(user);
+            Manager.UserManager.Get.Add(user);
         }
     }
 }

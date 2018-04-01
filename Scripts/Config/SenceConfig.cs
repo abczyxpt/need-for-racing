@@ -8,3 +8,5 @@ public enum ScenceEnum : int
     StartScence = 1,
     PlayScence = 2,
 }
+
+

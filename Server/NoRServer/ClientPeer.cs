@@ -14,9 +14,13 @@ namespace NoRServer
     /// </summary>
     public class ClientPeer : Photon.SocketServer.ClientPeer
     {
+        public string Username { get; set; }
+        public SendParameters sendParameters;
+        public ClientPeer FoePeer { get; set; } //该玩家的对手
+
         public ClientPeer(InitRequest initRequest) : base(initRequest)
         {
-
+            
         }
         
 
@@ -30,58 +34,58 @@ namespace NoRServer
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
         {
             #region 测试用代码
-            switch (operationRequest.OperationCode)
-            {
-                case (byte)EOperationCode.ConnectText:
-                    LogInit.Log.Info("收到请求");
+            //switch (operationRequest.OperationCode)
+            //{
+            //    case (byte)EOperationCode.ConnectText:
+            //        LogInit.Log.Info("收到请求");
 
-                    Dictionary<byte, object> dictionary = operationRequest.Parameters;
-                    object textOneData;
-                    dictionary.TryGetValue((byte)ETextCode.One, out textOneData);
-                    object textTwoData;
-                    dictionary.TryGetValue((byte)ETextCode.Two, out textTwoData);
+            //        Dictionary<byte, object> dictionary = operationRequest.Parameters;
+            //        object textOneData;
+            //        dictionary.TryGetValue((byte)ETextCode.One, out textOneData);
+            //        object textTwoData;
+            //        dictionary.TryGetValue((byte)ETextCode.Two, out textTwoData);
 
-                    LogInit.Log.Info(ETextCode.One.ToString() + "的值为" + textOneData.ToString() + "\n");
-                    LogInit.Log.Info(ETextCode.Two.ToString() + "的值为" + textTwoData.ToString() + "\n");
+            //        LogInit.Log.Info(ETextCode.One.ToString() + "的值为" + textOneData.ToString() + "\n");
+            //        LogInit.Log.Info(ETextCode.Two.ToString() + "的值为" + textTwoData.ToString() + "\n");
 
-                    AddData(textOneData.ToString(), textTwoData.ToString());
-                    //回传数据
-                    OperationResponse operation = new OperationResponse((byte)EOperationCode.ConnectText);
-                    dictionary = new Dictionary<byte, object>
-                    {
-                        { (byte)ETextCode.One, "明白" },
-                        { (byte)ETextCode.Two, "OK" }
-                    };
+            //        AddData(textOneData.ToString(), textTwoData.ToString());
+            //        //回传数据
+            //        OperationResponse operation = new OperationResponse((byte)EOperationCode.ConnectText);
+            //        dictionary = new Dictionary<byte, object>
+            //        {
+            //            { (byte)ETextCode.One, "明白" },
+            //            { (byte)ETextCode.Two, "OK" }
+            //        };
 
-                    operation.Parameters = dictionary;
-                    SendOperationResponse(operation, sendParameters);
+            //        operation.Parameters = dictionary;
+            //        SendOperationResponse(operation, sendParameters);
 
-                    EventData eventData = new EventData((byte)EOperationCode.ConnectText);
-                    dictionary = new Dictionary<byte, object>
-                    {
-                        { (byte)ETextCode.One, "这里是测试event" },
-                        { (byte)ETextCode.Two, "abczyx" }
-                    };
-                    eventData.Parameters = dictionary;
-                    SendEvent(eventData,new SendParameters());
+            //        EventData eventData = new EventData((byte)EOperationCode.ConnectText);
+            //        dictionary = new Dictionary<byte, object>
+            //        {
+            //            { (byte)ETextCode.One, "这里是测试event" },
+            //            { (byte)ETextCode.Two, "abczyx" }
+            //        };
+            //        eventData.Parameters = dictionary;
+            //        SendEvent(eventData,new SendParameters());
 
 
 
-                    break;
-                default:
-                    break;
-            }
-
+            //        break;
+            //    default:
+            //        break;
+            //}
+            //private void AddData(string name,string psw)
+            //{
+            //    User user = new User() { Username = name, Password = psw };
+            //    Manager.UserManager.Get.Add(user);
+            //}
             #endregion
-            
+            this.sendParameters = sendParameters;
             DictTool.TryGetHandle(NoRServer.Get.handleDict, (EOperationCode)operationRequest.OperationCode, out BaseHandle handle);
             handle.OnOperationRequest(operationRequest, sendParameters, this);
         }
 
-        private void AddData(string name,string psw)
-        {
-            User user = new User() { Username = name, Password = psw };
-            Manager.UserManager.Get.Add(user);
-        }
+        
     }
 }

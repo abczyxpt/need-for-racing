@@ -34,6 +34,7 @@ public class LoginRequest : ClientRequest
         //判断是否是登录操作
         if (userInfoNF.msgType != ENotificationMsgType.Login) return;
 
+        print("login post");
         Dictionary<byte, object> dictionary = new Dictionary<byte, object>
         {
             { (byte)EUserInfo.Username, userInfoNF.userName },

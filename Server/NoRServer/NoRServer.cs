@@ -18,6 +18,9 @@ namespace NoRServer
         //用于记录客户端请求的方法
         public Dictionary<EOperationCode, BaseHandle> handleDict = new Dictionary<EOperationCode, BaseHandle>();
 
+        public List<ClientPeer> peerList = new List<ClientPeer>();
+        private List<ClientPeer> peerWantGameList = new List<ClientPeer>();
+        public List<ClientPeer> PeerWantGameList => peerWantGameList;
 
         /// <summary>
         /// 当一个客户端请求连接
@@ -27,7 +30,9 @@ namespace NoRServer
         protected override PeerBase CreatePeer(InitRequest initRequest)
         {
             LogInit.Log.Info("一个客户端连接");
-            return new ClientPeer(initRequest);
+            ClientPeer peer = new ClientPeer(initRequest);
+            peerList.Add(peer);
+            return peer;
         }
 
 
@@ -66,6 +71,8 @@ namespace NoRServer
             handleDict.Add(EOperationCode.UserLogin, loginHandle);
             DefaultHandle defaultHandle = new DefaultHandle();
             handleDict.Add(EOperationCode.DefaultHandle, defaultHandle);
+            MatchingHandle matchingHandle = new MatchingHandle();
+            handleDict.Add(EOperationCode.MatchingGame, matchingHandle);
         }
 
 
@@ -76,6 +83,28 @@ namespace NoRServer
         {
             LogInit.Log.Info("服务器关闭");
         }
+
+        /// <summary>
+        /// 客户端想要找游戏
+        /// </summary>
+        /// <param name="peer"></param>
+        public void PeerWantGame(ClientPeer peer)
+        {
+            lock (peerWantGameList)
+                peerWantGameList.Add(peer);
+        }
+
+        /// <summary>
+        /// 客户端找到游戏
+        /// </summary>
+        /// <param name="peer"></param>
+        public void PeerFindGame(ClientPeer peer)
+        {
+            lock (peerWantGameList)
+                peerWantGameList.Remove(peer);
+                
+        }
+
     }
 
 

@@ -41,6 +41,7 @@ public class PhotonClientConnect:MonoBehaviour,IPhotonPeerListener{
     /// </summary>
     private void Start()
     {
+        operationDict = new Dictionary<EOperationCode, ClientRequest>();
         photonPeer = new PhotonPeer(this, ConnectionProtocol.Udp);
         Thread thread = new Thread(Connect);
         thread.Start();

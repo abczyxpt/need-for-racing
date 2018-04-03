@@ -5,6 +5,8 @@ using System;
 
 public class MoveController : MonoBehaviour {
 
+    public bool isLocalPlayer;      //是否是本地玩家
+
     private WheelCollider wheelColliderFL;   //前左轮
     private WheelCollider wheelColliderRL;   //后左轮
     private WheelCollider wheelColliderFR;   //前右轮
@@ -91,12 +93,12 @@ public class MoveController : MonoBehaviour {
 
         if (!isFinish)
         {
-            //移动
-            CarMoving();
-            //刹车
-            BrakeTorque();
-            //手刹（通过空格刹车）
-            BrakeTorqueWithSpace();
+            //本地通过输入控制
+            if (isLocalPlayer)
+            {
+                CarControl();
+            }
+
             //引擎声音
             EngineSound();
 
@@ -111,6 +113,17 @@ public class MoveController : MonoBehaviour {
         }
 
     }
+
+    private void CarControl()
+    {
+        //移动
+        CarMoving();
+        //刹车
+        BrakeTorque();
+        //手刹（通过空格刹车）
+        BrakeTorqueWithSpace();
+    }
+
 
     /// <summary>
     /// 汽车前进与转弯控制
@@ -181,7 +194,6 @@ public class MoveController : MonoBehaviour {
             BrakeLight(Color.red);
             BrakeSound(true);
 
-            print("speed + " + Mathf.Round(carSpeed));
             if(Mathf.Round(carSpeed) == 0)
             {
                 CarBrakeNf cb = new CarBrakeNf

@@ -9,7 +9,10 @@ namespace NoRServer
         ConnectText,
         UserRegister,
         UserLogin,
+        MatchingGame,
         DefaultHandle,
+        SyncPlayerHandle,
+        SyncPostionHandle,
     }
 
 
@@ -31,6 +34,12 @@ namespace NoRServer
         Password,
     }
 
+
+    public enum EMatchingGame : byte
+    {
+        True,
+        False
+    }
 
     /// <summary>
     /// 客户端反馈是否成功

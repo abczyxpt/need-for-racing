@@ -22,10 +22,14 @@ namespace NoRServer.Handle
 
             bool iVerify = Manager.UserManager.Get.VerifyUser(username.ToString(), password.ToString());
 
-            OperationResponse operation = new OperationResponse((byte)EOperationCode.UserLogin);
+            OperationResponse operation = new OperationResponse((byte)eOperationCode);
 
             EResponse eResponse = EResponse.False;
-            if (iVerify) eResponse = EResponse.True;
+            if (iVerify)
+            {
+                eResponse = EResponse.True;
+                peer.Username = username.ToString();
+            }
 
             operation.ReturnCode = (short)eResponse;
             

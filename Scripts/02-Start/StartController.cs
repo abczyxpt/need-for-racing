@@ -9,8 +9,9 @@ public class StartController : MonoBehaviour {
     private UISprite findGameInfo;
     private UILabel findGameLabel;
     private UIButton startButton;
-
-    public bool isFindGame;        //找到匹配对象
+    
+    public bool isMatching;        //正在寻找比赛
+    public bool isShowFindLable;    //显示寻找比赛lable
 
     private int count;              //计数器
     private string textForAdd;      //被添加的字符串
@@ -20,7 +21,6 @@ public class StartController : MonoBehaviour {
 
     private void Awake()
     {
-        isFindGame = false;
         count = 0;
         textForAdd = ".";
     }
@@ -31,35 +31,81 @@ public class StartController : MonoBehaviour {
         findGameLabel = this.transform.Find("FindGameInfo/Label").GetComponent<UILabel>();
         startButton = this.transform.Find("StartButton").GetComponent<UIButton>();
 
-        HideFindGameInfo(false);
+        ShowFindGameInfo(false);
 
         startButton.onClick.Add(new EventDelegate(StartButtonOnClick));
+
+        MessageController.Get.AddEventListener((uint)ENotificationMsgType.MacthingResponse, MatchingResponse);
+
+    }
+
+    private void OnDestroy()
+    {
+        MessageController.Get.RemoveEvent((uint)ENotificationMsgType.MacthingResponse, MatchingResponse);
+    }
+
+    private void MatchingResponse(Notification notification)
+    {
+        MatchingGameNF gameNF = notification.parm as MatchingGameNF;
+        bool isSuccess = gameNF.isMatchingGame;
+        if (isSuccess)
+        {
+            StartCoroutine(LoadScence());
+        }
+        else
+        {
+            StartCoroutine(FailMatching());
+        }
+    }
+
+    private IEnumerator LoadScence()
+    {
+        isShowFindLable = false;
+        yield return new WaitForSeconds(1f);
+        findGameLabel.text = "寻找比赛成功";
+
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene((int)ScenceEnum.PlayScence);
     }
 
     private void Update()
     {
-        //测试用，之后得删除
-        TextForNextScence();
-    }
 
-    private void TextForNextScence()
-    {
-        StartCoroutine(TextForNext());
     }
-
-    private IEnumerator TextForNext()
-    {
-        yield return new WaitForSeconds(5);
-        isFindGame = true;
-    }
-
+    
+    
+    /// <summary>
+    /// 点击开始匹配按钮之后
+    /// </summary>
     private void StartButtonOnClick()
     {
-        HideFindGameInfo(true);
+        isShowFindLable = true;
+        ShowFindGameInfo(true);
         ShowFindGameLabelText();
+        isMatching = true;
+        MessageController.Get.PostDispatchEvent(
+            (uint)ENotificationMsgType.MatchingGame, 
+            new MatchingGameNF {isMatchingGame = isMatching, msgType = ENotificationMsgType.MatchingGame });
+        StartCoroutine(MatchingOverTime());
     }
 
-    private void HideFindGameInfo(bool isHide)
+    /// <summary>
+    /// 90秒后如果还未寻找到比赛，那么就停止寻找
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator MatchingOverTime()
+    {
+        yield return new WaitForSeconds(90f);
+        if (isMatching)
+        {
+            MessageController.Get.PostDispatchEvent(
+                (uint)ENotificationMsgType.MatchingGame, 
+                new MatchingGameNF { isMatchingGame = !isMatching , msgType = ENotificationMsgType.MatchingGame});
+        }
+        StartCoroutine(FailMatching());
+    }
+
+    private void ShowFindGameInfo(bool isHide)
     {
         findGameInfo.gameObject.SetActive(isHide);
     }
@@ -73,7 +119,7 @@ public class StartController : MonoBehaviour {
     private IEnumerator ShowText(string text)
     {
         textForShow = text;
-        while (!isFindGame)
+        while (isShowFindLable)
         {
             yield return new WaitForSeconds(1);
 
@@ -88,13 +134,22 @@ public class StartController : MonoBehaviour {
 
             findGameLabel.text = textForShow;
         }
-
         findGameLabel.text = textForShow;
-        yield return new WaitForSeconds(1);
+        count = 0;
+        //yield return new WaitForSeconds(1);
 
-        //打开下一个场景
-        //TODO: *************************
-        SceneManager.LoadScene((int)ScenceEnum.PlayScence);
+        ////打开下一个场景
+        ////TODO: *************************
+        //SceneManager.LoadScene((int)ScenceEnum.PlayScence);
+    }
+
+    private IEnumerator FailMatching()
+    {
+        isShowFindLable = false;
+        yield return new WaitForSeconds(0.5f);
+        findGameLabel.text = "寻找比赛失败";
+        yield return new WaitForSeconds(2f);
+        ShowFindGameInfo(false);
     }
 
 }

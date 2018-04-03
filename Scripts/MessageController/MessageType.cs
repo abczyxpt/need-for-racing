@@ -1,10 +1,12 @@
 ﻿
 public enum ENotificationMsgType : uint
 {
-    RegisterAndLogin,
+    ClientRequest,
     Login,
     Register,
+    MatchingGame,
     ServerResponse,
+    MacthingResponse,
     CarRun,
     CarBrake,
     CarLight,

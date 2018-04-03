@@ -1,6 +1,4 @@
-﻿
-
-/// <summary>
+﻿/// <summary>
 /// 连接方式
 /// </summary>
 public enum EOperationCode : byte
@@ -8,7 +6,10 @@ public enum EOperationCode : byte
     ConnectText,
     UserRegister,
     UserLogin,
+    MatchingGame,
     DefaultHandle,
+    SyncPlayerHandle,
+    SyncPostionHandle,
 }
 
 
@@ -30,6 +31,11 @@ public enum EUserInfo : byte
     Password,
 }
 
+public enum EMatchingGame: byte
+{
+    True,
+    False
+}
 
 /// <summary>
 /// 客户端反馈是否成功

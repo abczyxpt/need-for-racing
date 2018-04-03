@@ -19,7 +19,9 @@ public class GetButtonClick : MonoBehaviour
 
     private void OperationResponse(Notification notification)
     {
+        
         UserInfoNF userInfoNF = notification.parm as UserInfoNF;
+        
         string str = "";
         switch (userInfoNF.msgType)
         {
@@ -61,7 +63,7 @@ public class GetButtonClick : MonoBehaviour
         if (CorrectInput(account, password))
         {
             UserInfoNF userInfoNF = new UserInfoNF { userName = account, password = password, msgType = ENotificationMsgType.Register };
-            MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.RegisterAndLogin, userInfoNF);
+            MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.ClientRequest, userInfoNF);
 
         }
 
@@ -76,10 +78,12 @@ public class GetButtonClick : MonoBehaviour
         string account = PlayerInput.Get.AccountInput;
         string password = PlayerInput.Get.PasswordInput;
 
+        print("login button click + accout = " + account + " psw = " + password);
+
         if (CorrectInput(account, password))
         {
             UserInfoNF userInfoNF = new UserInfoNF { userName = account, password = password, msgType = ENotificationMsgType.Login };
-            MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.RegisterAndLogin, userInfoNF);
+            MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.ClientRequest, userInfoNF);
         }
         
     }

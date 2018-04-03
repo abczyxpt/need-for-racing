@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
-    private float hight = 3;        //相机高度（Y轴）
+    private float hight = 2.5f;        //相机高度（Y轴）
     private float distance = 6;     //相机距离（Z轴）
     private float slipSpeed = 1;    //相机滑动速度
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RegisterRequest : ClientRequest
 {
-
+    
     public override void PostRequest(Notification notification)
     {
         UserInfoNF serverResponseNF = notification.parm as UserInfoNF;
@@ -18,7 +18,7 @@ public class RegisterRequest : ClientRequest
             { (byte)EUserInfo.Username, serverResponseNF.userName },
             { (byte)EUserInfo.Password, serverResponseNF.password }
         };
-
+        
         PhotonClientConnect.PhotonPeer.OpCustom((byte)EOperationCode.UserRegister, dictionary, true);
     }
 
@@ -35,7 +35,13 @@ public class RegisterRequest : ClientRequest
 
         if (eResponse == EResponse.True)
             isTrueResponse = true;
+
         MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.ServerResponse, new UserInfoNF() { isTrueResponse = isTrueResponse,msgType = ENotificationMsgType.Register });
        
+    }
+
+    public override void OnEvent(EventData eventData)
+    {
+
     }
 }

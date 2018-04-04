@@ -59,5 +59,25 @@ public class UserInfoNF : EventArgs
 public class MatchingGameNF : EventArgs
 {
     public bool isMatchingGame;
+    public int matchCount;
     public ENotificationMsgType msgType;
+    public List<string> playerNameList;
+}
+
+public class SyncPlayerNF : EventArgs
+{
+    public bool isFind;
+    public int playerCount;
+    public string playerNameMe;
+    public string playerName1;
+    public string playerName2;
+    public string playerName3;
+    public ENotificationMsgType msgType;
+}
+
+public class SyncPostionNF : EventArgs
+{
+    public Vector3 postion;
+    public bool getPostion = false;
+    public bool setPostion = false;
 }

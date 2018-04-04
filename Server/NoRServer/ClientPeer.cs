@@ -15,19 +15,27 @@ namespace NoRServer
     public class ClientPeer : Photon.SocketServer.ClientPeer
     {
         public string Username { get; set; }
+        public int MatchingCount { get; set; }
         public SendParameters sendParameters;
-        public ClientPeer FoePeer { get; set; } //该玩家的对手
+
+        public List<ClientPeer> FoePeer { get; } //该玩家的对手
 
         public ClientPeer(InitRequest initRequest) : base(initRequest)
         {
-            
+            FoePeer = new List<ClientPeer>();
         }
         
+        public void AddFoePeer(ClientPeer foePeer)
+        {
+            FoePeer.Add(foePeer);
+        }
+
 
         //服务器断开后工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
             LogInit.Log.Info("客户端断开链接");
+            NoRServer.Get.PeerFindGame(this, MatchingCount);
         }
 
         //服务器收到客户端请求

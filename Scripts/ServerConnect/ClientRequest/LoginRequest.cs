@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class LoginRequest : ClientRequest
 {
+    
+    public override void OnEvent(EventData eventData)
+    {
+
+    }
 
     /// <summary>
     /// 对服务器接受

@@ -9,7 +9,8 @@ public class StartController : MonoBehaviour {
     private UISprite findGameInfo;
     private UILabel findGameLabel;
     private UIButton startButton;
-    
+    private UIPopupList popupList;
+
     public bool isMatching;        //正在寻找比赛
     public bool isShowFindLable;    //显示寻找比赛lable
 
@@ -17,7 +18,7 @@ public class StartController : MonoBehaviour {
     private string textForAdd;      //被添加的字符串
     private string textForShow;     //用于被展示的字符串
     private string textForGameStart;//匹配结束游戏开始的时候
-
+    private int curWantMatchPlayerCount = 1;    //当前想要匹配的对手的人数 
 
     private void Awake()
     {
@@ -30,6 +31,7 @@ public class StartController : MonoBehaviour {
         findGameInfo = this.transform.Find("FindGameInfo").GetComponent<UISprite>();
         findGameLabel = this.transform.Find("FindGameInfo/Label").GetComponent<UILabel>();
         startButton = this.transform.Find("StartButton").GetComponent<UIButton>();
+        popupList = this.transform.Find("MatchCountList").GetComponent<UIPopupList>();
 
         ShowFindGameInfo(false);
 
@@ -51,6 +53,7 @@ public class StartController : MonoBehaviour {
         if (isSuccess)
         {
             StartCoroutine(LoadScence());
+            PlayerController.Get.SetFoePlayerName(gameNF.playerNameList);
         }
         else
         {
@@ -67,11 +70,6 @@ public class StartController : MonoBehaviour {
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene((int)ScenceEnum.PlayScence);
     }
-
-    private void Update()
-    {
-
-    }
     
     
     /// <summary>
@@ -83,10 +81,45 @@ public class StartController : MonoBehaviour {
         ShowFindGameInfo(true);
         ShowFindGameLabelText();
         isMatching = true;
-        MessageController.Get.PostDispatchEvent(
-            (uint)ENotificationMsgType.MatchingGame, 
-            new MatchingGameNF {isMatchingGame = isMatching, msgType = ENotificationMsgType.MatchingGame });
-        StartCoroutine(MatchingOverTime());
+
+        //判断玩家选择的游戏模式，如果是离线，那么就不对服务器通信
+        //1.离线模式
+        print(curWantMatchPlayerCount);
+        if (curWantMatchPlayerCount == 1)
+        {
+            StartCoroutine(LoadScence());
+        }
+        //2.在线模式,对服务器进行通信
+        else
+        {
+            MessageController.Get.PostDispatchEvent(
+                (uint)ENotificationMsgType.MatchingGame,
+                new MatchingGameNF { isMatchingGame = isMatching, msgType = ENotificationMsgType.MatchingGame, matchCount = curWantMatchPlayerCount });
+            StartCoroutine(MatchingOverTime());
+        }
+    }
+
+
+    public void PopupListChange()
+    {
+        switch (UIPopupList.current.value)
+        {
+            case "offline":
+                curWantMatchPlayerCount = 1;
+                break;
+            case "1v1":
+                curWantMatchPlayerCount = 2;
+                break;
+            case "1v1v1":
+                curWantMatchPlayerCount = 3;
+                break;
+            case "1v1v1v1":
+                curWantMatchPlayerCount = 4;
+                break;
+            default:
+                curWantMatchPlayerCount = 1;
+                break;
+        }
     }
 
     /// <summary>

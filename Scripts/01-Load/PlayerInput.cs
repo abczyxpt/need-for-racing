@@ -20,6 +20,10 @@ public class PlayerInput : MonoBehaviour {
         instance = this;
         accountInputLabel = this.transform.GetChild(0).GetComponent<UIInput>();
         passwordInputLabel = this.transform.GetChild(1).GetComponent<UIInput>();
+
+        string playerName = PlayerPrefs.GetString("PlayerName");
+        accountInputLabel.value = playerName;
+
     }
 
 }

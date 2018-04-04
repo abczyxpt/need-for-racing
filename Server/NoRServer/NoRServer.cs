@@ -19,8 +19,10 @@ namespace NoRServer
         public Dictionary<EOperationCode, BaseHandle> handleDict = new Dictionary<EOperationCode, BaseHandle>();
 
         public List<ClientPeer> peerList = new List<ClientPeer>();
-        private List<ClientPeer> peerWantGameList = new List<ClientPeer>();
-        public List<ClientPeer> PeerWantGameList => peerWantGameList;
+        private List<ClientPeer> peerWantGameList2 = new List<ClientPeer>();
+        private List<ClientPeer> peerWantGameList3 = new List<ClientPeer>();
+        private List<ClientPeer> peerWantGameList4 = new List<ClientPeer>();
+        
 
         /// <summary>
         /// 当一个客户端请求连接
@@ -73,6 +75,8 @@ namespace NoRServer
             handleDict.Add(EOperationCode.DefaultHandle, defaultHandle);
             MatchingHandle matchingHandle = new MatchingHandle();
             handleDict.Add(EOperationCode.MatchingGame, matchingHandle);
+            SyncPlayerHandle syncPlayerName = new SyncPlayerHandle();
+            handleDict.Add(EOperationCode.SyncPlayerHandle, syncPlayerName);
         }
 
 
@@ -88,21 +92,39 @@ namespace NoRServer
         /// 客户端想要找游戏
         /// </summary>
         /// <param name="peer"></param>
-        public void PeerWantGame(ClientPeer peer)
+        public void PeerWantGame(ClientPeer peer, int matchingCount)
         {
-            lock (peerWantGameList)
-                peerWantGameList.Add(peer);
+            lock (PeerWantGameList(matchingCount))
+                PeerWantGameList(matchingCount).Add(peer);
         }
 
         /// <summary>
         /// 客户端找到游戏
         /// </summary>
         /// <param name="peer"></param>
-        public void PeerFindGame(ClientPeer peer)
+        public void PeerFindGame(ClientPeer peer,int matchingCount)
         {
-            lock (peerWantGameList)
-                peerWantGameList.Remove(peer);
+            if (PeerWantGameList(matchingCount) != null)
+            {
+                lock (PeerWantGameList(matchingCount))
+                    PeerWantGameList(matchingCount).Remove(peer);
+            }
                 
+        }
+
+        public List<ClientPeer> PeerWantGameList(int matchingCount)
+        {
+            switch (matchingCount)
+            {
+                case 2:
+                    return peerWantGameList2;
+                case 3:
+                    return peerWantGameList3;
+                case 4:
+                    return peerWantGameList4;
+                default:
+                    return null;
+            }
         }
 
     }

@@ -78,24 +78,31 @@ public class PhotonClientConnect:MonoBehaviour,IPhotonPeerListener{
     /// <param name="eventData"></param>
     public void OnEvent(EventData eventData)
     {
-        dataDict = eventData.Parameters;
-        switch (eventData.Code)
+        #region 测试用接收
+        //switch (eventData.Code)
+        //{
+        //    case (byte)EOperationCode.ConnectText:
+
+        //        object data1;
+        //        dataDict.TryGetValue((byte)ETextCode.One,out data1);
+        //        object data2;
+        //        dataDict.TryGetValue((byte)ETextCode.Two, out data2);
+
+        //        print("data1 " + data1);
+        //        print("data2 " + data2);
+        //        break;
+
+        //    default:
+        //        break;
+        //}
+        #endregion
+
+        ClientRequest clientRequest = null;
+        if (operationDict.TryGetValue((EOperationCode)eventData.Code,out clientRequest))
         {
-            case (byte)EOperationCode.ConnectText:
-                
-                object data1;
-                dataDict.TryGetValue((byte)ETextCode.One,out data1);
-                object data2;
-                dataDict.TryGetValue((byte)ETextCode.Two, out data2);
-
-                print("data1 " + data1);
-                print("data2 " + data2);
-                break;
-
-            default:
-                break;
+            clientRequest.OnEvent(eventData);
         }
-        dataDict = new Dictionary<byte, object>();
+        
     }
 
 

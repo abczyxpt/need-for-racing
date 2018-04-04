@@ -7,6 +7,8 @@ public enum ENotificationMsgType : uint
     MatchingGame,
     ServerResponse,
     MacthingResponse,
+    SyncPlayerResponse,
+    SyncPostionResponse,
     CarRun,
     CarBrake,
     CarLight,

@@ -11,7 +11,7 @@ namespace NoRServer.Handle
     {
         public SyncPlayerHandle()
         {
-            
+            this.eOperationCode = EOperationCode.SyncPlayerHandle;
         }
 
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, ClientPeer peer)

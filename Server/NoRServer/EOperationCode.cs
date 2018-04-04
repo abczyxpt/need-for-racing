@@ -34,11 +34,16 @@ namespace NoRServer
         Password,
     }
 
-
     public enum EMatchingGame : byte
     {
         True,
-        False
+        False,
+    }
+
+    public enum EMatchingType : byte
+    {
+        IsMatchingGame,
+        PlayerCount,
     }
 
     /// <summary>
@@ -49,5 +54,23 @@ namespace NoRServer
         True,
         False,
     }
-    
+
+
+
+    public enum EPlayerInfo : byte
+    {
+        PlayerCount,
+        Player0Name,
+        Player1Name,
+        Player2Name,
+        Player3Name,
+    }
+
+    public enum EPostionInfo : byte
+    {
+        Postion,
+        GetPostion,
+        SetPostion,
+    }
+
 }

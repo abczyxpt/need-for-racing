@@ -13,7 +13,7 @@ public abstract class ClientRequest : MonoBehaviour {
     public ENotificationMsgType msgType;
     public abstract void OnOperationResponse(OperationResponse operationResponse);
     public abstract void PostRequest(Notification notification);
-
+    public abstract void OnEvent(EventData eventData);
     private void Start()
     {
         PhotonClientConnect.Get.AddRequest(this);

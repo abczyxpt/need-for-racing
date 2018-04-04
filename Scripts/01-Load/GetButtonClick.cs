@@ -39,6 +39,10 @@ public class GetButtonClick : MonoBehaviour
             {
                 StartCoroutine(WiteForPlay());
                 str += "欢迎回来," + PlayerInput.Get.AccountInput;
+                //保存用户账号
+                PlayerPrefs.SetString("PlayerName", PlayerInput.Get.AccountInput);
+                //保存用户名称
+                PlayerController.Get.SetCurPlayerName(PlayerInput.Get.AccountInput);
             }
             InfomationShow.Get.ShowLabel("成功" + str);
         }

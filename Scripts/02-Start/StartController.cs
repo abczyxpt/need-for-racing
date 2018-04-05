@@ -54,6 +54,7 @@ public class StartController : MonoBehaviour {
         {
             StartCoroutine(LoadScence());
             PlayerController.Get.SetFoePlayerName(gameNF.playerNameList);
+            PlayerController.Get.SetPlayerCount(curWantMatchPlayerCount);
         }
         else
         {
@@ -66,7 +67,6 @@ public class StartController : MonoBehaviour {
         isShowFindLable = false;
         yield return new WaitForSeconds(1f);
         findGameLabel.text = "寻找比赛成功";
-
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene((int)ScenceEnum.PlayScence);
     }
@@ -88,6 +88,9 @@ public class StartController : MonoBehaviour {
         if (curWantMatchPlayerCount == 1)
         {
             StartCoroutine(LoadScence());
+
+            List<string> nameList = new List<string> { PlayerController.Get.CurPlayerName };
+            PlayerController.Get.SetPlayerCount(curWantMatchPlayerCount);
         }
         //2.在线模式,对服务器进行通信
         else

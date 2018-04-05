@@ -39,6 +39,11 @@ public class CarProperty{
         get { return instance ?? (instance = new CarProperty()); }
     }
 
+    public float GetRadius()
+    {
+        return wheelRadius;
+    }
+
     /// <summary>
     /// 获取汽车速度
     /// </summary>

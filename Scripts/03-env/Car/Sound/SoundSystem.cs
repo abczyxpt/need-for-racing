@@ -39,6 +39,7 @@ public class SoundSystem : MonoBehaviour {
     public void BrakingSoundPlay(Notification notification)
     {
         CarBrakeNf carBrakeNf = notification.parm as CarBrakeNf;
+        if (carBrakeNf.curName != this.GetComponent<MoveController>().userName) return;
         isBraking = carBrakeNf.isBraking;
     }
 
@@ -50,6 +51,7 @@ public class SoundSystem : MonoBehaviour {
     public void EngineSoundPlay(Notification notification)
     {
         CarRunNF carRunNF = notification.parm as CarRunNF;
+        if (carRunNF.curName != this.GetComponent<MoveController>().userName) return;
         engineAudioSource.pitch = carRunNF.engineSoundPith;
 
     }

@@ -21,17 +21,20 @@ public class Notification{
 public class CarBrakeNf : EventArgs
 {
     public bool isBraking;
+    public string curName;
 }
 
 //汽车跑
 public class CarRunNF : EventArgs
 {
     public float engineSoundPith;
+    public string curName;
 }
 
 //汽车灯光
 public class CarLightNF : EventArgs
 {
+    public string curName;
     public bool isLigting;
     public Color color;
 }
@@ -77,7 +80,16 @@ public class SyncPlayerNF : EventArgs
 
 public class SyncPostionNF : EventArgs
 {
-    public Vector3 postion;
+    public float foeVertical;       //服务器输入
+    public float foeHorizontal;
+    public float foeBrake;
+
     public bool getPostion = false;
     public bool setPostion = false;
+    public string ctrName;
+}
+
+public class GameFinishNF : EventArgs
+{
+    public bool isWin;
 }

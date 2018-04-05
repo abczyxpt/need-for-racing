@@ -77,6 +77,8 @@ namespace NoRServer
             handleDict.Add(EOperationCode.MatchingGame, matchingHandle);
             SyncPlayerHandle syncPlayerName = new SyncPlayerHandle();
             handleDict.Add(EOperationCode.SyncPlayerHandle, syncPlayerName);
+            SyncPostionHandle syncPostionHandle = new SyncPostionHandle();
+            handleDict.Add(EOperationCode.SyncPostionHandle, syncPostionHandle);
         }
 
 

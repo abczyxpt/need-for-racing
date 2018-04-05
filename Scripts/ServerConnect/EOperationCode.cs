@@ -10,6 +10,7 @@ public enum EOperationCode : byte
     DefaultHandle,
     SyncPlayerHandle,
     SyncPostionHandle,
+    GameFinish,
 }
 
 
@@ -64,7 +65,16 @@ public enum EPlayerInfo : byte
 
 public enum EPostionInfo : byte
 {
-    Postion,
-    GetPostion,
-    SetPostion,
+    FoeHorizontal,
+    FoeVertical,
+    FoeBrake,
+    IsGetPostion,
+    IsSetPostion,
+    PlayerName,
+}
+
+public enum EGameFinish : byte
+{
+    Win,
+    Lost,
 }

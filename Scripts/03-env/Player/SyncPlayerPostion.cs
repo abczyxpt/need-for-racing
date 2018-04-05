@@ -8,7 +8,7 @@ public class SyncPlayerPostion : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        InvokeRepeating("PostPostion", 2.0f, 0.3f);
+        InvokeRepeating("PostPostion", 5.5f, 0.1f);
     }
 	
 	// Update is called once per frame
@@ -19,6 +19,14 @@ public class SyncPlayerPostion : MonoBehaviour {
     //为当前车辆的位置同步到服务器上
     private void PostPostion()
     {
-        MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.SyncPostionResponse, new SyncPostionNF { getPostion = true, postion = curPlayer.transform.position });
+        curPlayer = GenerateCar.Get.GetCurPlayer();
+        SyncPostionNF nf = new SyncPostionNF
+        {
+            getPostion = true,
+            foeBrake = curPlayer.GetComponent<MoveController>().inputBrake,
+            foeVertical = curPlayer.GetComponent<MoveController>().inputVertical,
+            foeHorizontal = curPlayer.GetComponent<MoveController>().inputHorizontal
+        };
+        MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.SyncPostionResponse, nf);
     }
 }

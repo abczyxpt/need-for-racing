@@ -13,6 +13,7 @@ namespace NoRServer
         DefaultHandle,
         SyncPlayerHandle,
         SyncPostionHandle,
+        GameFinish,
     }
 
 
@@ -68,9 +69,18 @@ namespace NoRServer
 
     public enum EPostionInfo : byte
     {
-        Postion,
-        GetPostion,
-        SetPostion,
+        FoeHorizontal,
+        FoeVertical,
+        FoeBrake,
+        IsGetPostion,
+        IsSetPostion,
+        PlayerName,
+    }
+
+    public enum EGameFinish : byte
+    {
+        Win,
+        Lost,
     }
 
 }

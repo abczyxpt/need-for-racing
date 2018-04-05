@@ -6,6 +6,15 @@ using System;
 public class MoveController : MonoBehaviour {
 
     public bool isLocalPlayer;      //是否是本地玩家
+    public string userName;
+
+    public float inputVertical;     //玩家输入
+    public float inputHorizontal;
+    public float inputBrake;
+
+    public float foeVertical;       //服务器输入
+    public float foeHorizontal;
+    public float foeBrake;
 
     private WheelCollider wheelColliderFL;   //前左轮
     private WheelCollider wheelColliderRL;   //后左轮
@@ -77,27 +86,40 @@ public class MoveController : MonoBehaviour {
 
         //接受是否能控制汽车的消息
         MessageController.Get.AddEventListener((uint)ENotificationMsgType.CarControl, CarMovingControl);
+        MessageController.Get.AddEventListener((uint)ENotificationMsgType.CarControlFromServer, CarControlFromServer);
         
+    }
+
+    private void CarControlFromServer(Notification notification)
+    {
+        if (isLocalPlayer)
+            return;
+        SyncPostionNF nF = notification.parm as SyncPostionNF;
+        if(nF.ctrName == userName)
+        {
+            foeVertical = nF.foeVertical;
+            foeHorizontal = nF.foeHorizontal;
+            foeBrake = nF.foeBrake;
+        }
     }
 
     private void OnDestroy()
     {
         MessageController.Get.RemoveEvent((uint)ENotificationMsgType.CarControl, CarMovingControl);
+        MessageController.Get.RemoveEvent((uint)ENotificationMsgType.CarControlFromServer, CarControlFromServer);
+
     }
 
     // Update is called once per frame
     void Update () {
 
-        //汽车速度
-        carSpeed = CarProperty.Get.CarSpeed;
 
         if (!isFinish)
         {
-            //本地通过输入控制
-            if (isLocalPlayer)
-            {
-                CarControl();
-            }
+            PlayerInputGet();
+
+
+            CarControl();
 
             //引擎声音
             EngineSound();
@@ -137,18 +159,27 @@ public class MoveController : MonoBehaviour {
             threshold = 0;
         }
         //后轮驱动
-        motorTorqueRL =wheelColliderRL.motorTorque = Input.GetAxis("Vertical") * motorTorque * threshold;
-        motorTorqueRR = wheelColliderRR.motorTorque = Input.GetAxis("Vertical") * motorTorque * threshold;
+        motorTorqueRL =wheelColliderRL.motorTorque = inputVertical * motorTorque * threshold;
+        motorTorqueRR = wheelColliderRR.motorTorque = inputVertical * motorTorque * threshold;
         //前轮转弯
-        wheelColliderFL.steerAngle = Input.GetAxis("Horizontal") * steerAngle;
-        wheelColliderFR.steerAngle = Input.GetAxis("Horizontal") * steerAngle;
+        wheelColliderFL.steerAngle = inputHorizontal * steerAngle;
+        wheelColliderFR.steerAngle = inputHorizontal * steerAngle;
 
+        //汽车速度
+        carSpeed = (wheelColliderFL.rpm + wheelColliderFR.rpm) / 2 * 60 * (CarProperty.Get.GetRadius() * 2 * Mathf.PI) / 1000; 
         //保存轮胎转速
         CarProperty.Get.SetWheelRpm(wheelColliderFL.rpm, wheelColliderFR.rpm, wheelColliderRL.rpm, wheelColliderRR.rpm);
 
         //设置车灯，如果是倒车，就放白灯
         if (carSpeed < 0)
-            BrakeLight(Color.white); 
+            BrakeLight(Color.white);
+
+
+        //如果飞起来，就失去控制
+        if ((!wheelColliderFL.isGrounded && !wheelColliderFR.isGrounded) && (!wheelColliderRL.isGrounded || !wheelColliderRR.isGrounded))
+        {
+            CarLostControl(true);
+        }
 
     }
 
@@ -159,7 +190,7 @@ public class MoveController : MonoBehaviour {
     private void BrakeTorque()
     {
         //推力方向（如果与速度方向相反，就是判断刹车）
-        faceDirection = Input.GetAxis("Vertical");
+        faceDirection = inputVertical;
         //刹车
         if ((Mathf.Round(carSpeed) >0&& faceDirection <0) || (Mathf.Round(carSpeed) < 0 && faceDirection > 0))
         {
@@ -184,7 +215,7 @@ public class MoveController : MonoBehaviour {
     private void BrakeTorqueWithSpace()
     {
 
-        faceDirection = Mathf.Abs(Input.GetAxis("Brake"));
+        faceDirection = Mathf.Abs(inputBrake);
 
         if (faceDirection != 0)
         {
@@ -198,7 +229,8 @@ public class MoveController : MonoBehaviour {
             {
                 CarBrakeNf cb = new CarBrakeNf
                 {
-                    isBraking = false
+                    isBraking = false,
+                    curName = this.userName
                 };
 
                 //给声音系统发送启动消息
@@ -254,7 +286,8 @@ public class MoveController : MonoBehaviour {
 
         CarRunNF carRunNF = new CarRunNF
         {
-            engineSoundPith = pitch
+            engineSoundPith = pitch,
+            curName = this.userName,
         };
         MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.CarRun, carRunNF);
     }
@@ -294,8 +327,13 @@ public class MoveController : MonoBehaviour {
     public void CarMovingControl(Notification notification)
     {
         CarControlNF carControlNF = notification.parm as CarControlNF;
-        
-        if (!carControlNF.isCanControl)
+
+        CarLostControl(!carControlNF.isCanControl);
+    }
+
+    private void CarLostControl(bool isLost)
+    {
+        if (isLost)
         {
             wheelColliderRL.brakeTorque = brakeTorque;
             wheelColliderRR.brakeTorque = brakeTorque;
@@ -325,7 +363,8 @@ public class MoveController : MonoBehaviour {
 
         CarBrakeNf cb = new CarBrakeNf
         {
-            isBraking = isPlay
+            isBraking = isPlay,
+            curName = this.userName,
         };
 
         //给声音系统发送启动消息
@@ -343,10 +382,27 @@ public class MoveController : MonoBehaviour {
         CarLightNF carLightNF = new CarLightNF
         {
             isLigting = true,
-            color = color
+            color = color,
+            curName = this.userName,
         };
         //给灯光系统发送启动消息
         MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.CarLight, carLightNF);
     }
-    
+
+
+    public void PlayerInputGet()
+    {
+        if (isLocalPlayer)
+        {
+            inputVertical = Input.GetAxis("Vertical");
+            inputHorizontal = Input.GetAxis("Horizontal");
+            inputBrake = Input.GetAxis("Brake");
+        }
+        else
+        {
+            inputVertical = foeVertical;
+            inputHorizontal = foeHorizontal;
+            inputBrake = foeBrake;
+        }
+    }
 }

@@ -14,4 +14,6 @@ public enum ENotificationMsgType : uint
     CarLight,
     CarControl,
     StartCount,
+    CarControlFromServer,
+    GameFinish,
 }

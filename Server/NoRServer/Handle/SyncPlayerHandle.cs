@@ -16,7 +16,7 @@ namespace NoRServer.Handle
 
         public override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters, ClientPeer peer)
         {
-            
+
         }
     }
 }

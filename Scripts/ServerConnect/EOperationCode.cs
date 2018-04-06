@@ -11,6 +11,8 @@ public enum EOperationCode : byte
     SyncPlayerHandle,
     SyncPostionHandle,
     GameFinish,
+    TearDown,
+    Chat,
 }
 
 
@@ -77,4 +79,10 @@ public enum EGameFinish : byte
 {
     Win,
     Lost,
+}
+
+public enum EChat : byte
+{
+    ChatName,
+    ChatInfo,
 }

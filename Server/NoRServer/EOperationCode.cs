@@ -14,6 +14,8 @@ namespace NoRServer
         SyncPlayerHandle,
         SyncPostionHandle,
         GameFinish,
+        TearDown,
+        Chat,
     }
 
 
@@ -83,4 +85,9 @@ namespace NoRServer
         Lost,
     }
 
+    public enum EChat : byte
+    {
+        ChatName,
+        ChatInfo,
+    }
 }

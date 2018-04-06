@@ -79,6 +79,10 @@ namespace NoRServer
             handleDict.Add(EOperationCode.SyncPlayerHandle, syncPlayerName);
             SyncPostionHandle syncPostionHandle = new SyncPostionHandle();
             handleDict.Add(EOperationCode.SyncPostionHandle, syncPostionHandle);
+            FinishHandle finishHandle = new FinishHandle();
+            handleDict.Add(EOperationCode.GameFinish, finishHandle);
+            ChatHandle chat = new ChatHandle();
+            handleDict.Add(EOperationCode.Chat, chat);
         }
 
 
@@ -88,6 +92,19 @@ namespace NoRServer
         protected override void TearDown()
         {
             LogInit.Log.Info("服务器关闭");
+            handleDict.Clear();
+            EventData eventData = new EventData((byte)EOperationCode.TearDown)
+            {
+                Parameters = new Dictionary<byte, object>
+                {
+                    { (byte)EOperationCode.TearDown,true },
+                },
+            };
+            foreach (var player in peerList)
+            {
+                player.SendEvent(eventData, player.sendParameters);
+            }
+            
         }
 
         /// <summary>

@@ -91,6 +91,7 @@ public class StartController : MonoBehaviour {
 
             List<string> nameList = new List<string> { PlayerController.Get.CurPlayerName };
             PlayerController.Get.SetPlayerCount(curWantMatchPlayerCount);
+            PlayerController.Get.SetFoePlayerName(nameList);
         }
         //2.在线模式,对服务器进行通信
         else

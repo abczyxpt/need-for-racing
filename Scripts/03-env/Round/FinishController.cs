@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +7,24 @@ public class FinishController : MonoBehaviour {
 
     public int curTurn = 1;
     public int totalTurn = 2;
+    public int count = 0;
 
     public UILabel trunLabel;
+
+    private void Awake()
+    {
+        MessageController.Get.AddEventListener((uint)ENotificationMsgType.GameFinish, GameFinishFromServer);
+    }
+    private void OnDestroy()
+    {
+        MessageController.Get.RemoveEvent((uint)ENotificationMsgType.GameFinish, GameFinishFromServer);
+    }
+
+    private void GameFinishFromServer(Notification notification)
+    {
+        GameFinishNF nf = notification.parm as GameFinishNF;
+
+    }
 
     private void Start()
     {
@@ -22,12 +39,20 @@ public class FinishController : MonoBehaviour {
     {
         if(other.transform.root.tag == "Car")
         {
-            curTurn++;
-            trunLabel.text = curTurn + "/" + totalTurn;
-            if (curTurn == totalTurn)
+            count++;
+            if (count == 2)
             {
-                this.GetComponent<MeshRenderer>().enabled = true;
-                StartCoroutine(LostControlForOneSecond());
+                count = 0;
+                curTurn++;
+                if(curTurn == totalTurn)
+                {
+                    this.GetComponent<MeshRenderer>().enabled = true;
+                }
+                if (curTurn == totalTurn + 1)
+                {
+                    GameEnd(true);
+                }
+                trunLabel.text = curTurn + "/" + totalTurn;
             }
          }
     }
@@ -45,6 +70,33 @@ public class FinishController : MonoBehaviour {
         };
 
         MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.CarControl, carControlNF);
-        MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.GameFinish, new GameFinishNF { isWin = true });
+
+    }
+
+    /// <summary>
+    /// 游戏结束控制
+    /// </summary>
+    /// <param name="isWin"></param>
+    private void GameEnd(bool isWin)
+    {
+        //1.失去控制
+        StartCoroutine(LostControlForOneSecond());
+        //2.判断输赢
+
+        //如果赢了，就发送胜利请求
+        //如果是在线对战，就给服务器发送结束请求
+        if (isWin)
+        {
+            if (PlayerController.Get.AllPlayerNameList.Count != 1)
+                MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.GameFinish, new GameFinishNF { isWin = true });
+        }
+        //3.显示输赢
+        GameFinishNF nf = new GameFinishNF
+        {
+            isWin = true
+        };
+
+        MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.GameFinishDisplay, nf);
+
     }
 }

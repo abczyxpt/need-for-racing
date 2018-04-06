@@ -93,3 +93,9 @@ public class GameFinishNF : EventArgs
 {
     public bool isWin;
 }
+
+public class ChatInfoNF : EventArgs
+{
+    public string chatStr;
+    public string chatName;
+}

@@ -35,7 +35,10 @@ namespace NoRServer
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
             LogInit.Log.Info("客户端断开链接");
+            FoePeer.Clear();
             NoRServer.Get.PeerFindGame(this, MatchingCount);
+            NoRServer.Get.peerList.Remove(this);
+
         }
 
         //服务器收到客户端请求

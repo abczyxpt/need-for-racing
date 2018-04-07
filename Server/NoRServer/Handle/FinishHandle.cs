@@ -24,6 +24,7 @@ namespace NoRServer.Handle
             {
                 EventData eventData = new EventData
                 {
+                    Code = (byte)eOperationCode,
                     Parameters = new Dictionary<byte, object>
                      {
                          {(byte)EGameFinish.Win,isWin }

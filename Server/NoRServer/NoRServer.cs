@@ -113,8 +113,11 @@ namespace NoRServer
         /// <param name="peer"></param>
         public void PeerWantGame(ClientPeer peer, int matchingCount)
         {
-            lock (PeerWantGameList(matchingCount))
-                PeerWantGameList(matchingCount).Add(peer);
+            if (PeerWantGameList(matchingCount) != null)
+            {
+                lock (PeerWantGameList(matchingCount))
+                    PeerWantGameList(matchingCount).Add(peer);
+            }
         }
 
         /// <summary>

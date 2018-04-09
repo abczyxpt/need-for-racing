@@ -12,6 +12,7 @@ namespace NoRServer.Model
         public virtual string Username { get; set; }
         public virtual string Password { get; set; }
         public virtual string Registerdate { get; set; }
+        public virtual bool IsOnline { get; set; }
 
         public override string ToString()
         {

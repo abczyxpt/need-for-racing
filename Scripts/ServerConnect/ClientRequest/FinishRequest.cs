@@ -23,8 +23,9 @@ public class FinishRequest : ClientRequest
     public override void PostRequest(Notification notification)
     {
         GameFinishNF nF = notification.parm as GameFinishNF;
+        print("发送反馈" + nF.isWin);
 
-        PhotonClientConnect.PhotonPeer.OpCustom((byte)EOperationCode.GameFinish, new Dictionary<byte, object> { { (byte)EGameFinish.Win, nF.isWin },{ (byte)EGameFinish.Lost, !nF.isWin} },true);
+        PhotonClientConnect.PhotonPeer.OpCustom((byte)EOperationCode.GameFinish, new Dictionary<byte, object> { { (byte)EGameFinish.Win, nF.isWin }},true);
 
     }
 }

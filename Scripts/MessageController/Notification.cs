@@ -57,6 +57,7 @@ public class UserInfoNF : EventArgs
     public string userName;
     public string password;
     public ENotificationMsgType msgType;
+    public string feedbackstr;
 }
 
 public class MatchingGameNF : EventArgs

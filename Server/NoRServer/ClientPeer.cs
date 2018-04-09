@@ -38,7 +38,8 @@ namespace NoRServer
             FoePeer.Clear();
             NoRServer.Get.PeerFindGame(this, MatchingCount);
             NoRServer.Get.peerList.Remove(this);
-
+            //更改在线状态
+            UserManager.Get.ChangeLoading(Username, false);
         }
 
         //服务器收到客户端请求

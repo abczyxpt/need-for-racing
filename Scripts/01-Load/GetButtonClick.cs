@@ -48,7 +48,10 @@ public class GetButtonClick : MonoBehaviour
         }
         else
         {
-            InfomationShow.Get.ShowLabel("失败" + str);
+            string infoStr = "";
+            if (!string.IsNullOrEmpty(userInfoNF.feedbackstr))
+                infoStr = userInfoNF.feedbackstr;
+            InfomationShow.Get.ShowLabel("失败" + str + infoStr);
         }
     }
 

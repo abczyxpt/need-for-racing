@@ -16,6 +16,8 @@ public class MoveController : MonoBehaviour {
     public float foeHorizontal;
     public float foeBrake;
 
+    public int trunCount = 0;       //记录赛车的圈数
+
     private WheelCollider wheelColliderFL;   //前左轮
     private WheelCollider wheelColliderRL;   //后左轮
     private WheelCollider wheelColliderFR;   //前右轮
@@ -167,19 +169,21 @@ public class MoveController : MonoBehaviour {
 
         //汽车速度
         carSpeed = (wheelColliderFL.rpm + wheelColliderFR.rpm) / 2 * 60 * (CarProperty.Get.GetRadius() * 2 * Mathf.PI) / 1000; 
-        //保存轮胎转速
-        CarProperty.Get.SetWheelRpm(wheelColliderFL.rpm, wheelColliderFR.rpm, wheelColliderRL.rpm, wheelColliderRR.rpm);
+       
+        //保存本地轮胎转速
+        if(isLocalPlayer)
+            CarProperty.Get.SetWheelRpm(wheelColliderFL.rpm, wheelColliderFR.rpm, wheelColliderRL.rpm, wheelColliderRR.rpm);
 
         //设置车灯，如果是倒车，就放白灯
         if (carSpeed < 0)
             BrakeLight(Color.white);
 
 
-        //如果飞起来，就失去控制
-        if ((!wheelColliderFL.isGrounded && !wheelColliderFR.isGrounded) && (!wheelColliderRL.isGrounded || !wheelColliderRR.isGrounded))
-        {
-            CarLostControl(true);
-        }
+        ////如果飞起来，就失去控制
+        //if ((!wheelColliderFL.isGrounded && !wheelColliderFR.isGrounded) && (!wheelColliderRL.isGrounded || !wheelColliderRR.isGrounded))
+        //{
+        //    CarLostControl(true);
+        //}
 
     }
 

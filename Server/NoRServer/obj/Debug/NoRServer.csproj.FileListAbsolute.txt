@@ -10,4 +10,3 @@ C:\我\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\NoRServer\bin\NoRServer.
 C:\我\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\NoRServer\bin\NoRServer.dll.config
 C:\我\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\NoRServer\bin\log4net.config
 C:\我\Photon-OnPremise-Server-SDK_v4-0-29-11263\deploy\NoRServer\bin\hibernate.cfg.xml
-G:\NoR\nfr git\need-for-racing\Server\NoRServer\obj\Debug\NoRServer.csprojResolveAssemblyReference.cache

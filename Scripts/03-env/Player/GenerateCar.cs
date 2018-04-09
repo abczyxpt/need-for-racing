@@ -62,10 +62,14 @@ public class GenerateCar : MonoBehaviour {
     private void GenerateGo(string name,Transform pst)
     {
         GameObject go = GameObject.Instantiate(carPerfab, pst.position, pst.rotation);
-
+        go.tag = "FoeCar";
         bool isLocal = false;
+        //判断是否是本地
         if (name == curPlayerName)
+        {
             isLocal = true;
+            go.tag = "Car";
+        }
         go.GetComponent<MoveController>().isLocalPlayer = isLocal;
         go.GetComponent<MoveController>().userName = name;
 

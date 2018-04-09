@@ -23,7 +23,17 @@ public class LoginRequest : ClientRequest
 
         if (eResponse == EResponse.True)
             isTrueResponse = true;
-        MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.ServerResponse, new UserInfoNF() { isTrueResponse = isTrueResponse, msgType = ENotificationMsgType.Login });
+
+        object str = "";
+        //读取账号登录失败的原因
+        if (!isTrueResponse)
+        {
+            if(!operationResponse.Parameters.TryGetValue((byte)EFeedbackInfo.Info, out str))
+            {
+                str = "账号或密码错误";
+            }     
+        }
+        MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.ServerResponse, new UserInfoNF() { isTrueResponse = isTrueResponse, msgType = ENotificationMsgType.Login,feedbackstr = str.ToString() });
 
     }
 

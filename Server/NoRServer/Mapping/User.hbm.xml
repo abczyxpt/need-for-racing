@@ -16,6 +16,7 @@
         <property name="Username" column="username" type="String" />
         <property name="Password" column="password" type="String" />
         <property name="Registerdate" column ="registerdate" type ="String" />
+        <property name="IsOnline" column ="isonline" type ="Boolean"/>
 
     </class>
   

@@ -90,4 +90,9 @@ namespace NoRServer
         ChatName,
         ChatInfo,
     }
+
+    public enum EFeedbackInfo : byte
+    {
+        Info,
+    }
 }

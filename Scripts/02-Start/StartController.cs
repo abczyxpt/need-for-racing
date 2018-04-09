@@ -137,9 +137,28 @@ public class StartController : MonoBehaviour {
         {
             MessageController.Get.PostDispatchEvent(
                 (uint)ENotificationMsgType.MatchingGame, 
-                new MatchingGameNF { isMatchingGame = !isMatching , msgType = ENotificationMsgType.MatchingGame});
+                new MatchingGameNF { isMatchingGame = !isMatching , msgType = ENotificationMsgType.MatchingGame, matchCount = curWantMatchPlayerCount });
         }
         StartCoroutine(FailMatching());
+    }
+
+
+    /// <summary>
+    /// 取消匹配
+    /// </summary>
+    public void CancelMatching()
+    {
+        if (isMatching)
+        {
+            MessageController.Get.PostDispatchEvent(
+               (uint)ENotificationMsgType.MatchingGame,
+               new MatchingGameNF { isMatchingGame = !isMatching, msgType = ENotificationMsgType.MatchingGame , matchCount = curWantMatchPlayerCount });
+
+            isMatching = false;
+            StopCoroutine(MatchingOverTime());
+            StartCoroutine(FailMatching());
+
+        }
     }
 
     private void ShowFindGameInfo(bool isHide)
@@ -183,7 +202,7 @@ public class StartController : MonoBehaviour {
     private IEnumerator FailMatching()
     {
         isShowFindLable = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         findGameLabel.text = "寻找比赛失败";
         yield return new WaitForSeconds(2f);
         ShowFindGameInfo(false);

@@ -60,6 +60,40 @@ namespace NoRServer.Manager
             }
         }
 
+        public bool IsOnline(string userName)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                using(ITransaction tc = session.BeginTransaction())
+                {
+                    User user = session.CreateCriteria(typeof(User))
+                        .Add(Restrictions.Eq("Username", userName))
+                        .UniqueResult<User>();
+                    tc.Commit();
+                    return user.IsOnline;
+                }
+            }
+        }
+
+        public void ChangeLoading(string userName,bool isOnline)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                using(ITransaction tc = session.BeginTransaction())
+                {
+                    User user = session.CreateCriteria(typeof(User))
+                        .Add(Restrictions.Eq("Username", userName))
+                        .UniqueResult<User>();
+                    if (user == null)
+                        return;
+                    user.IsOnline = isOnline;
+                    session.Update(user);
+                    tc.Commit();
+
+                }
+            }
+        }
+
         public void Remove(User user)
         {
             using(ISession session = NHibernateHelper.OpenSession())

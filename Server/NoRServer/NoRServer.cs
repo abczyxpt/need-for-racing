@@ -83,6 +83,8 @@ namespace NoRServer
             handleDict.Add(EOperationCode.GameFinish, finishHandle);
             ChatHandle chat = new ChatHandle();
             handleDict.Add(EOperationCode.Chat, chat);
+            CoinHandle coin = new CoinHandle();
+            handleDict.Add(EOperationCode.Coin, coin);
         }
 
 

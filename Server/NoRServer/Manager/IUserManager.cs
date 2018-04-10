@@ -21,8 +21,11 @@ namespace NoRServer.Manager
 
         bool VerifyUser(string name, string password);     //验证
 
-        bool IsOnline(string name);          //是否在线
+        bool IsOnline(string name);    //是否在线
 
         void ChangeLoading(string name,bool isLoad);        //登录游戏
+
+        int GetCoinByName(string name);
+        void ChangeCoin(string name,int count);
     }
 }

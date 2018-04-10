@@ -20,4 +20,6 @@ public enum ENotificationMsgType : uint
     GameFinishDisplay,
     ChatResponse,
     ChatFromServer,
+    CoinResponse,
+    CoinFromServer,
 }

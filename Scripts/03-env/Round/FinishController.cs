@@ -12,6 +12,7 @@ public class FinishController : MonoBehaviour {
     public UILabel trunLabel;
 
     public GameObject escLabel;
+    public GameObject errorLabel;
 
     private void Awake()
     {
@@ -74,24 +75,54 @@ public class FinishController : MonoBehaviour {
     {
         if(other.transform.root.tag == "Car")
         {
+            ////判断是否是正常撞线
+            ////1.车速为正，车头也必须为正
+            //if(CarProperty.Get.CarSpeed > 0 && other.transform.forward == this.gameObject.transform.forward)
+            //{
+            //    TurnOneOver();
+            //}
+            ////2.车速为负，车头也必须为负
+            //if(CarProperty.Get.CarSpeed < 0 && other.transform.forward == -this.gameObject.transform.forward)
+            //{
+            //    TurnOneOver();
+            //}
+
             count++;
             if (count == 2)
             {
                 count = 0;
-                curTurn++;
-                if(curTurn == totalTurn)
+                //赛道检测器:
+                if (MoniterController.Get.IsOneRoundOver)
                 {
-                    this.GetComponent<MeshRenderer>().enabled = true;
+                    TurnOneOver();
+                    MoniterController.Get.IsOneRoundOver = false;
                 }
-                if (curTurn == totalTurn + 1)
+                else
                 {
-                    GameEnd(true);
+                    if (errorLabel.activeSelf) ;
+                    else
+                        errorLabel.SetActive(true);
                 }
-                trunLabel.text = curTurn + "/" + totalTurn;
             }
          }
     }
     
+    private void TurnOneOver()
+    {
+       
+        curTurn++;
+        if (curTurn == totalTurn)
+        {
+            this.GetComponent<MeshRenderer>().enabled = true;
+        }
+        if (curTurn == totalTurn + 1)
+        {
+            curTurn--;
+            GameEnd(true);
+        }
+        trunLabel.text = curTurn + "/" + totalTurn;
+        
+    }
 
     /// <summary>
     /// 游戏结束控制

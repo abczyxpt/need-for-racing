@@ -16,6 +16,7 @@ namespace NoRServer
         GameFinish,
         TearDown,
         Chat,
+        Coin,
     }
 
 
@@ -94,5 +95,10 @@ namespace NoRServer
     public enum EFeedbackInfo : byte
     {
         Info,
+    }
+
+    public enum ECoin : byte
+    {
+        Num,
     }
 }

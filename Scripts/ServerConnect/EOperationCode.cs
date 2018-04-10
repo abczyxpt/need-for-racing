@@ -13,6 +13,7 @@ public enum EOperationCode : byte
     GameFinish,
     TearDown,
     Chat,
+    Coin,
 }
 
 
@@ -90,4 +91,9 @@ public enum EChat : byte
 public enum EFeedbackInfo : byte
 {
     Info,
+}
+
+public enum ECoin : byte
+{
+    Num,
 }

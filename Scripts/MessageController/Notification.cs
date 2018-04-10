@@ -100,3 +100,8 @@ public class ChatInfoNF : EventArgs
     public string chatStr;
     public string chatName;
 }
+
+public class CoinNF : EventArgs
+{
+    public int count;
+}

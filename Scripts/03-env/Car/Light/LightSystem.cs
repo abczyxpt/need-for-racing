@@ -44,7 +44,6 @@ public class LightSystem : MonoBehaviour {
     private void LightsGlowing(Notification notification)
     {
         CarLightNF carLightNf = notification.parm as CarLightNF;
-        print(this.GetComponent<MoveController>().userName + " + " + carLightNf.curName);
         if (carLightNf.curName != this.GetComponent<MoveController>().userName) return;
         isLighting = carLightNf.isLigting;
         lightrL.color = carLightNf.color;

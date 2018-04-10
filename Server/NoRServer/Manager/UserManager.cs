@@ -129,5 +129,32 @@ namespace NoRServer.Manager
                 return user != null;                    
             }
         }
+
+        public int GetCoinByName(string name)
+        {
+            using(ISession session = NHibernateHelper.OpenSession())
+            {
+                User user = session.CreateCriteria(typeof(User))
+                    .Add(Restrictions.Eq("Username", name))
+                    .UniqueResult<User>();
+                return user.Coins;
+            }
+        }
+
+        public void ChangeCoin(string name,int count)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                User user = session.CreateCriteria(typeof(User))
+                    .Add(Restrictions.Eq("Username", name))
+                    .UniqueResult<User>();
+                user.Coins = count;
+                using(ITransaction ts = session.BeginTransaction())
+                {
+                    session.Update(user);
+                    ts.Commit();
+                }
+            }
+        }
     }
 }

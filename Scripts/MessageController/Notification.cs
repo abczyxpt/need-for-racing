@@ -65,7 +65,7 @@ public class MatchingGameNF : EventArgs
     public bool isMatchingGame;
     public int matchCount;
     public ENotificationMsgType msgType;
-    public List<string> playerNameList;
+    public List<PlayerList> playerNameList;
 }
 
 public class SyncPlayerNF : EventArgs
@@ -104,4 +104,17 @@ public class ChatInfoNF : EventArgs
 public class CoinNF : EventArgs
 {
     public int count;
+}
+
+public class CarHanveNF : EventArgs
+{
+    public string carName;
+    public bool isHave = false;
+    public bool isBuy = false;
+}
+
+public class SurrenderNF:EventArgs
+{
+    public string foeName;
+    public bool isWin = false;
 }

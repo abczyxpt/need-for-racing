@@ -19,6 +19,8 @@ namespace NoRServer.Handle
             Tools.DictTool.TryGetHandle(operationRequest.Parameters, (byte)EGameFinish.Win, out object isWin);
 
             LogInit.Log.Info("Game end + " + isWin);
+            if((bool)isWin)
+                Manager.UserManager.Get.ChangeCoin(peer.Username, 50);
 
             foreach (var foe in peer.FoePeer)
             {
@@ -27,9 +29,13 @@ namespace NoRServer.Handle
                     Code = (byte)eOperationCode,
                     Parameters = new Dictionary<byte, object>
                      {
-                         {(byte)EGameFinish.Win,isWin }
+                        {(byte)EGameFinish.Win,isWin }
                      }
                 };
+                if(!(bool)isWin)
+                {
+                    eventData.Parameters.Add((byte)EGameFinish.PlayerName, peer.Username);
+                }
                 foe.SendEvent(eventData, foe.sendParameters);
             }
         }

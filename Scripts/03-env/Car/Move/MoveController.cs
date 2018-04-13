@@ -69,6 +69,8 @@ public class MoveController : MonoBehaviour {
         wheelColliderFR = this.transform.Find("WheelFR/DiscBrakeFR/WheelColliderFR").GetComponent<WheelCollider>();
         wheelColliderRR = this.transform.Find("WheelRR/DiscBrakeRR/WheelColliderRR").GetComponent<WheelCollider>();
 
+        print(wheelColliderFL.transform.root.name);
+
         wheelModeFL = this.transform.Find("WheelFL/DiscBrakeFL/WheelFL.2").transform;
         wheelModeFR = this.transform.Find("WheelFR/DiscBrakeFR/WheelFR.2").transform;
         wheelModeRL = this.transform.Find("WheelRL/DiscBrakeRL/WheelRL.2").transform;
@@ -89,7 +91,6 @@ public class MoveController : MonoBehaviour {
         //接受是否能控制汽车的消息
         MessageController.Get.AddEventListener((uint)ENotificationMsgType.CarControl, CarMovingControl);
         MessageController.Get.AddEventListener((uint)ENotificationMsgType.CarControlFromServer, CarControlFromServer);
-        
     }
 
     private void CarControlFromServer(Notification notification)
@@ -175,7 +176,7 @@ public class MoveController : MonoBehaviour {
             CarProperty.Get.SetWheelRpm(wheelColliderFL.rpm, wheelColliderFR.rpm, wheelColliderRL.rpm, wheelColliderRR.rpm);
 
         //设置车灯，如果是倒车，就放白灯
-        if (carSpeed < 0)
+        if (carSpeed < -0.0013)
             BrakeLight(Color.white);
 
 

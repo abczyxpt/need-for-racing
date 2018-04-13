@@ -15,11 +15,9 @@ public class CameraController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
         GameObject go;
         GenerateCar.Get.PlayerDict.TryGetValue(GenerateCar.Get.curPlayerName, out go);
         targetCar = go.transform;
-            
 	}
 	
 	// Update is called once per frame

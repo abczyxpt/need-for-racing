@@ -12,11 +12,14 @@ public class PlayerController {
     private string curPlayerName;
     public string CurPlayerName { get { return curPlayerName; } }
 
-    private List<string> foePlayerNameList = new List<string>();
-    public List<string> FoePlayerNameList { get { return foePlayerNameList; } }
+    private List<PlayerList> foePlayerNameList = new List<PlayerList>();
+    public List<PlayerList> FoePlayerNameList { get { return foePlayerNameList; } }
 
-    private List<string> allPlayerNameList = new List<string>();
-    public List<string> AllPlayerNameList { get { return allPlayerNameList; } }
+    private List<PlayerList> allPlayerNameList = new List<PlayerList>();
+    public List<PlayerList> AllPlayerNameList { get { return allPlayerNameList; } }
+
+    private string curPlayerCar;
+    public string CurplayerCar { get { return curPlayerCar; } }
 
     public static PlayerController Get
     {
@@ -26,14 +29,14 @@ public class PlayerController {
         }
     }
 
-    public void SetFoePlayerName(List<string> nameList)
+    public void SetFoePlayerName(List<PlayerList> nameList)
     {
         allPlayerNameList = nameList;
         foreach (var name in nameList)
         {
             if (!foePlayerNameList.Contains(name))
             {
-                if(name != curPlayerName)
+                if(name.PlayerName != curPlayerName)
                     foePlayerNameList.Add(name);
             }
         }
@@ -48,5 +51,21 @@ public class PlayerController {
     {
         playerCount = count;
     }
+
+    public void SetCurPlayerCar(string carName)
+    {
+        curPlayerCar = carName;
+    }
     
+}
+
+public class PlayerList
+{
+    public virtual string PlayerName { set; get; }
+    public virtual string PlayerCar { get; set; }
+
+    public override string ToString()
+    {
+        return this.PlayerName + " " + PlayerCar;
+    }
 }

@@ -53,7 +53,7 @@ public class MoniterController : MonoBehaviour {
         //MoniterList list = null;
         //print("测试" + list + (list == null));
         //print("尾节点" + moniterList.rearNode.CarMonitor.name + "尾节点后" + (moniterList.rearNode.NextNode==null));
-        ////print("当前：" + carMonitor + "下一个：" + moniterList.CurNode.CarMonitor);
+        print("当前：" + carMonitor + "下一个：" + moniterList.CurNode.CarMonitor);
         //print("当前撞的点" + carMonitor.name);
         //1.正确路线（当前的下一个节点是该碰撞框）
         if (moniterList.CurNode.CarMonitor == carMonitor)
@@ -70,7 +70,7 @@ public class MoniterController : MonoBehaviour {
             else
             {
                 moniterList.CurNodeMoveToNext();
-                ////print("curnod name is : " + moniterList.CurNode.CarMonitor.name);
+                print("curnod name is : " + moniterList.CurNode.CarMonitor.name);
                 if (moniterList.CurNode.CarMonitor.name == "GameFinish")
                 {
                     //如果跑到最后一个节点了，那么就增加一圈

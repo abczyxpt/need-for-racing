@@ -29,6 +29,13 @@ public class CarMonitor : MonoBehaviour {
         if (other.transform.root.tag == "Car")
         {
             count++;
+
+            //因为初始汽车有两个碰撞器，但是新车只有一个，所以
+            if(PlayerController.Get.CurplayerCar == CarEnum.SportCar.ToString())
+            {
+                count++;
+            }
+
             if(count == 2)
             {
                 count = 0;

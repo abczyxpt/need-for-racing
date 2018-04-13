@@ -17,6 +17,7 @@ namespace NoRServer
         TearDown,
         Chat,
         Coin,
+        CarHave,
     }
 
 
@@ -48,6 +49,7 @@ namespace NoRServer
     {
         IsMatchingGame,
         PlayerCount,
+        CurPlayerCar,
     }
 
     /// <summary>
@@ -65,9 +67,13 @@ namespace NoRServer
     {
         PlayerCount,
         Player0Name,
+        Player0Car,
         Player1Name,
+        Player1Car,
         Player2Name,
+        Player2Car,
         Player3Name,
+        Player3Car,
     }
 
     public enum EPostionInfo : byte
@@ -84,6 +90,7 @@ namespace NoRServer
     {
         Win,
         Lost,
+        PlayerName,
     }
 
     public enum EChat : byte
@@ -100,5 +107,12 @@ namespace NoRServer
     public enum ECoin : byte
     {
         Num,
+    }
+
+    public enum ECarHave : byte
+    {
+        IsHave,
+        CarName,
+        IsBuy,
     }
 }

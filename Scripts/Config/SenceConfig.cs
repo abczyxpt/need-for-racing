@@ -9,4 +9,11 @@ public enum ScenceEnum : int
     PlayScence = 2,
 }
 
+public enum CarEnum
+{
+    Catamount,
+    SportCar,
+    Cube,
+}
+
 

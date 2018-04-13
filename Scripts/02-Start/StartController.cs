@@ -53,8 +53,13 @@ public class StartController : MonoBehaviour {
         if (isSuccess)
         {
             StartCoroutine(LoadScence());
+            //玩家列表
             PlayerController.Get.SetFoePlayerName(gameNF.playerNameList);
+            //玩家总数
             PlayerController.Get.SetPlayerCount(curWantMatchPlayerCount);
+            GameObject go = GameObject.FindGameObjectWithTag("Car");
+            print(go.name);
+            PlayerController.Get.SetCurPlayerCar(go.name);
         }
         else
         {
@@ -88,10 +93,17 @@ public class StartController : MonoBehaviour {
         if (curWantMatchPlayerCount == 1)
         {
             StartCoroutine(LoadScence());
-
-            List<string> nameList = new List<string> { PlayerController.Get.CurPlayerName };
+            GameObject go = GameObject.FindGameObjectWithTag("Car");
+            List<PlayerList> nameList = new List<PlayerList> {
+                new PlayerList {
+                    PlayerName = PlayerController.Get.CurPlayerName,
+                    PlayerCar = go.name,
+                }
+            };
             PlayerController.Get.SetPlayerCount(curWantMatchPlayerCount);
             PlayerController.Get.SetFoePlayerName(nameList);
+            PlayerController.Get.SetCurPlayerCar(go.name);
+            
         }
         //2.在线模式,对服务器进行通信
         else
@@ -207,5 +219,6 @@ public class StartController : MonoBehaviour {
         yield return new WaitForSeconds(2f);
         ShowFindGameInfo(false);
     }
+    
 
 }

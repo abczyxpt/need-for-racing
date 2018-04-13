@@ -88,6 +88,11 @@ public class FinishController : MonoBehaviour {
             //}
 
             count++;
+            //因为初始汽车有两个碰撞器，但是新车只有一个，所以
+            if (PlayerController.Get.CurplayerCar == CarEnum.SportCar.ToString())
+            {
+                count++;
+            }
             if (count == 2)
             {
                 count = 0;
@@ -128,7 +133,7 @@ public class FinishController : MonoBehaviour {
     /// 游戏结束控制
     /// </summary>
     /// <param name="isWin"></param>
-    private void GameEnd(bool isWin,bool isPost = true)
+    public void GameEnd(bool isWin,bool isPost = true)
     {
         //1.失去控制
         StartCoroutine(LostControlForOneSecond());

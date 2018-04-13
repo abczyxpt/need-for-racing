@@ -15,6 +15,7 @@ namespace NoRServer
     public class ClientPeer : Photon.SocketServer.ClientPeer
     {
         public string Username { get; set; }
+        public string UserCar { get; set; }
         public int MatchingCount { get; set; }
         public SendParameters sendParameters;
 

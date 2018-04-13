@@ -85,6 +85,8 @@ namespace NoRServer
             handleDict.Add(EOperationCode.Chat, chat);
             CoinHandle coin = new CoinHandle();
             handleDict.Add(EOperationCode.Coin, coin);
+            CarHandle car = new CarHandle();
+            handleDict.Add(EOperationCode.CarHave, car);
         }
 
 

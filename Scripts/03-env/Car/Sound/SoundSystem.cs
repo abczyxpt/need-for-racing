@@ -13,6 +13,7 @@ public class SoundSystem : MonoBehaviour {
     // Use this for initialization
     void Start() {
         engineAudioSource = this.transform.GetComponent<AudioSource>();
+        
         brakeAudioSource = this.transform.Find("WheelFL/DiscBrakeFL").GetComponent<AudioSource>();
 
         MessageController.Get.AddEventListener((uint)ENotificationMsgType.CarBrake, BrakingSoundPlay);

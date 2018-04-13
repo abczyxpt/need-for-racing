@@ -14,6 +14,7 @@ public enum EOperationCode : byte
     TearDown,
     Chat,
     Coin,
+    CarHave,
 }
 
 
@@ -45,6 +46,7 @@ public enum EMatchingType : byte
 {
     IsMatchingGame,
     PlayerCount,
+    CurPlayerCar,
 }
 
 /// <summary>
@@ -61,9 +63,13 @@ public enum EPlayerInfo : byte
 {
     PlayerCount,
     Player0Name,
+    Player0Car,
     Player1Name,
+    Player1Car,
     Player2Name,
+    Player2Car,
     Player3Name,
+    Player3Car,
 }
 
 public enum EPostionInfo : byte
@@ -80,6 +86,7 @@ public enum EGameFinish : byte
 {
     Win,
     Lost,
+    PlayerName,
 }
 
 public enum EChat : byte
@@ -96,4 +103,11 @@ public enum EFeedbackInfo : byte
 public enum ECoin : byte
 {
     Num,
+}
+
+public enum ECarHave : byte
+{
+    IsHave,
+    CarName,
+    IsBuy,
 }

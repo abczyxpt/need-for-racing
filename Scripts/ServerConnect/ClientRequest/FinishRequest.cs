@@ -8,12 +8,27 @@ public class FinishRequest : ClientRequest
     public override void OnEvent(EventData eventData)
     {
         object isWin;
+        object foeName;
         eventData.Parameters.TryGetValue((byte)EGameFinish.Win, out isWin);
-        GameFinishNF nf = new GameFinishNF
+        //1.有玩家跑到终点
+        if (!eventData.Parameters.TryGetValue((byte)EGameFinish.PlayerName, out foeName))
         {
-            isWin = (bool)isWin
-        };
-        MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.GameFinish, nf);
+            GameFinishNF nf = new GameFinishNF
+            {
+                isWin = (bool)isWin
+            };
+            MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.GameFinish, nf);
+        }
+        //2.有玩家认输
+        else
+        {
+            SurrenderNF nf = new SurrenderNF
+            {
+                isWin = (bool)isWin,
+                foeName = foeName.ToString()
+            };
+            MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.FoeSurrender, nf);
+        }
     }
 
     public override void OnOperationResponse(OperationResponse operationResponse)

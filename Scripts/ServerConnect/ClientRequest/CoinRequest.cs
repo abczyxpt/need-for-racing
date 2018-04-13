@@ -8,13 +8,20 @@ public class CoinRequest :ClientRequest {
 
     public override void OnEvent(EventData eventData)
     {
-       
+        object coinCount;
+        eventData.Parameters.TryGetValue((byte)ECoin.Num, out coinCount);
+
+        MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.CoinFromServer, new CoinNF { count = int.Parse(coinCount.ToString()) });
+
     }
 
     public override void OnOperationResponse(OperationResponse operationResponse)
     {
-        Dictionary<byte, object> dict = operationResponse.Parameters;
+        object coinCount;
+        operationResponse.Parameters.TryGetValue((byte)ECoin.Num, out coinCount);
         
+        MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.CoinFromServer, new CoinNF { count = int.Parse(coinCount.ToString()) });
+
     }
 
     public override void PostRequest(Notification notification)
@@ -25,17 +32,8 @@ public class CoinRequest :ClientRequest {
         {
             {(byte)ECoin.Num,nf.count },
         };
-
+        print("发送" + nf.count);
         PhotonClientConnect.PhotonPeer.OpCustom((byte)eOperationCode, dict, true);
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    
 }

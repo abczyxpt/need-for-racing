@@ -148,7 +148,7 @@ namespace NoRServer.Manager
                 User user = session.CreateCriteria(typeof(User))
                     .Add(Restrictions.Eq("Username", name))
                     .UniqueResult<User>();
-                user.Coins = count;
+                user.Coins += count;
                 using(ITransaction ts = session.BeginTransaction())
                 {
                     session.Update(user);

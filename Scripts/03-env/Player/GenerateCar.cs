@@ -12,10 +12,11 @@ public class GenerateCar : MonoBehaviour {
     public Transform postion2;
     public Transform postion3;
     public Transform postion4;
-    public GameObject carPerfab;
+    public GameObject carPerfab1;
+    public GameObject carPerfab2;
 
     public int playerCount = 0;
-    public List<string> playerList;
+    public List<PlayerList> playerList;
     private Dictionary<string, GameObject> playerDict;
     public Dictionary<string, GameObject> PlayerDict { get { return playerDict; } }
 
@@ -59,19 +60,35 @@ public class GenerateCar : MonoBehaviour {
         }
     }
     
-    private void GenerateGo(string name,Transform pst)
+    private void GenerateGo(PlayerList player,Transform pst)
     {
+        GameObject carPerfab;
+        switch (player.PlayerCar)
+        {
+            case "SportCar":
+                carPerfab = carPerfab2;
+                break;
+            default:
+                carPerfab = carPerfab1;
+                break;
+        }
+        print(carPerfab.name);
         GameObject go = GameObject.Instantiate(carPerfab, pst.position, pst.rotation);
         go.tag = "FoeCar";
         bool isLocal = false;
         //判断是否是本地
-        if (name == curPlayerName)
+        if (player.PlayerName == curPlayerName)
         {
             isLocal = true;
             go.tag = "Car";
         }
+        //如果不是本地，就添加敌人
+        else
+        {
+            FoeController.Get.AddFoe(new FoePlayerInfo(player.PlayerName));
+        }
         go.GetComponent<MoveController>().isLocalPlayer = isLocal;
-        go.GetComponent<MoveController>().userName = name;
+        go.GetComponent<MoveController>().userName = player.PlayerName;
 
         playerDict.Add(go.GetComponent<MoveController>().userName, go);
     }

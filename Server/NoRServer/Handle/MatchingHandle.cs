@@ -28,9 +28,11 @@ namespace NoRServer.Handle
         {
             Tools.DictTool.TryGetHandle(operationRequest.Parameters, (byte)EMatchingType.IsMatchingGame, out object isMacthingGame);
             Tools.DictTool.TryGetHandle(operationRequest.Parameters, (byte)EMatchingType.PlayerCount, out object playerCount);
+            Tools.DictTool.TryGetHandle(operationRequest.Parameters, (byte)EMatchingType.CurPlayerCar, out object playerCar);
             EMatchingGame eMatching = (EMatchingGame)isMacthingGame;
             isMatching = (eMatching == EMatchingGame.True);
             peer.MatchingCount = (int)playerCount;
+            peer.UserCar = playerCar.ToString();
 
             if (isMatching)
             {
@@ -69,16 +71,20 @@ namespace NoRServer.Handle
             {
                 Dictionary<byte, object> dict = new Dictionary<byte, object>
                 {
+                    { (byte)EPlayerInfo.Player0Car, peerList[0].UserCar },
                     { (byte)EPlayerInfo.Player0Name, peerList[0].Username }
                 };
                 if (playerCount > 1)
                 {
+                    dict.Add((byte)EPlayerInfo.Player1Car, peerList[1].UserCar);
                     dict.Add((byte)EPlayerInfo.Player1Name, peerList[1].Username);
-                    if(playerCount > 2)
+                    if (playerCount > 2)
                     {
+                        dict.Add((byte)EPlayerInfo.Player2Car, peerList[2].UserCar);
                         dict.Add((byte)EPlayerInfo.Player2Name, peerList[2].Username);
                         if (playerCount > 3)
                         {
+                            dict.Add((byte)EPlayerInfo.Player3Car, peerList[3].UserCar);
                             dict.Add((byte)EPlayerInfo.Player3Name, peerList[3].Username);
                         }
                     }

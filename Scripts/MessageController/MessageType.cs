@@ -22,4 +22,7 @@ public enum ENotificationMsgType : uint
     ChatFromServer,
     CoinResponse,
     CoinFromServer,
+    CarHaveRequest,
+    CarHaveResponse,
+    FoeSurrender,
 }

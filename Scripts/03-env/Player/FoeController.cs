@@ -18,6 +18,7 @@ public class FoeController : MonoBehaviour {
     {
         instance = this;
         foeList = new List<FoePlayerInfo>();
+        foeLostList = new List<FoePlayerInfo>();
     }
 
     // Use this for initialization
@@ -33,11 +34,22 @@ public class FoeController : MonoBehaviour {
     private void FoeSurrender(Notification notification)
     {
         SurrenderNF nF = notification.parm as SurrenderNF;
-        var foePlayer = from foe in foeList
-                        where foe.FoeName == nF.foeName
-                        select foe;
+
+        FoePlayerInfo foePlayer = null;
+
+        foreach (FoePlayerInfo foe in foeList)
+        {
+            if(foe.FoeName == nF.foeName)
+            {
+                foePlayer = foe;
+                break;
+            }
+        }
+        
         foeList.Remove(foePlayer as FoePlayerInfo);
         foeLostList.Add(foePlayer as FoePlayerInfo);
+
+        print("比赛情况" + foeList.Count);
 
         //如果敌人为0，那么就结束游戏,赢得这次比赛
         if(foeList.Count == 0)

@@ -10,6 +10,8 @@ public class SoundSystem : MonoBehaviour {
     private bool isBraking;                 //判断是否在刹车状态
     private bool isRunning;                 //判断是否在奔跑状态
 
+
+
     // Use this for initialization
     void Start() {
         engineAudioSource = this.transform.GetComponent<AudioSource>();

@@ -12,6 +12,7 @@ public class PointerController : MonoBehaviour {
     // Use this for initialization
     void Start() {
         minRotation = currentZRotation = this.transform.eulerAngles.z;
+        this.transform.eulerAngles = new Vector3(0, 0, minRotation);
         maxRotation = minRotation - 270;
     }
 

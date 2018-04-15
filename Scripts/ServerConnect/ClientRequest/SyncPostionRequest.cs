@@ -29,7 +29,7 @@ public class SyncPostionRequest : ClientRequest {
                     foeBrake = (float)z
                 };
                 MessageController.Get.PostDispatchEvent((uint)ENotificationMsgType.CarControlFromServer,nf);
-                print(postion);
+               
             }
         }
     }

@@ -103,9 +103,28 @@ public class MoniterList
     {
         if(CurNode.NextNode == null)
         {
-            return CurNode.CarMonitor;
+            CurNode.NextNode = headNode;
+            return CurNode.NextNode.CarMonitor;
         }
         return CurNode.NextNode.CarMonitor;
+    }
+
+    public CarMonitor GetProNode()
+    {
+        if (CurNode.ProMonitor == null)
+        {
+            CurNode.ProMonitor = rearNode;
+            return CurNode.CarMonitor;
+        }
+        return CurNode.ProMonitor.CarMonitor;
+    }
+
+    public void CurNodeMoveToTarget(Monitor target)
+    {
+        if (CurNode != target)
+        {
+            CurNode = target;
+        }
     }
 
 }

@@ -32,15 +32,16 @@ namespace NoRServer.Handle
             EMatchingGame eMatching = (EMatchingGame)isMacthingGame;
             isMatching = (eMatching == EMatchingGame.True);
             peer.MatchingCount = (int)playerCount;
+
             peer.UserCar = playerCar.ToString();
 
             if (isMatching)
             {
                 NoRServer.Get.PeerWantGame(peer, (int)playerCount);
 
+                LogInit.Log.Info("开始匹配中");
                 //开始匹配
                 MacthingGame((int)playerCount);
-                LogInit.Log.Info("开始匹配中");
             }
             else
             {
@@ -100,6 +101,7 @@ namespace NoRServer.Handle
             //发送回去
             foreach (var peer in peerList)
             {
+                LogInit.Log.Info(peer.Username + " " + peer.UserCar);
                 peer.SendOperationResponse(operation, peer.sendParameters);
             }
 

@@ -9,7 +9,7 @@ public class PlayerLoginEnter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             getButton.OnLoginButoonClick();
         }	

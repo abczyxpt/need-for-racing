@@ -53,7 +53,7 @@ public class MoniterController : MonoBehaviour {
         //MoniterList list = null;
         //print("测试" + list + (list == null));
         //print("尾节点" + moniterList.rearNode.CarMonitor.name + "尾节点后" + (moniterList.rearNode.NextNode==null));
-        print("当前：" + carMonitor + "下一个：" + moniterList.CurNode.CarMonitor);
+        print("被撞节点：" + carMonitor + "当前节点：" + moniterList.CurNode.CarMonitor);
         //print("当前撞的点" + carMonitor.name);
         //1.正确路线（当前的下一个节点是该碰撞框）
         if (moniterList.CurNode.CarMonitor == carMonitor)
@@ -79,16 +79,32 @@ public class MoniterController : MonoBehaviour {
                 }
             }
         }
+        //如果只撞了当前节点但是没有通过，然后返回下一个节点
+        else if(moniterList.GetNextNode() == carMonitor)
+        {
+            print("移动下一个节点");
+            moniterList.CurNodeMoveToNext();
+            moniterList.CurNodeMoveToNext();
+            errorLabel.SetActive(false);
+        }
+        //如果只撞了当前节点但是没有通过，然后返回下一个节点
+        else if (moniterList.GetProNode() == carMonitor)
+        {
+            print("不移动节点");
+            errorLabel.SetActive(false);
+        }
         //2.错误路线
         else
         {
+            print("移动前一个节点");
             if (!errorLabel.activeSelf)
             {
                 errorLabel.SetActive(true);
                 //print("显示提示");
             }
+            
             moniterList.CurNodeMoveToPro();
         }
-        print("当前1：" + carMonitor + "下一个1：" + moniterList.CurNode.CarMonitor);
+        print("当前1：" + carMonitor + "当前的链表节点：" + moniterList.CurNode.CarMonitor);
     }    
 }

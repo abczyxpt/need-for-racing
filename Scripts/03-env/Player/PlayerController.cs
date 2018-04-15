@@ -66,6 +66,6 @@ public class PlayerList
 
     public override string ToString()
     {
-        return this.PlayerName + " " + PlayerCar;
+        return this.PlayerName + " " + this.PlayerCar;
     }
 }

@@ -37,7 +37,13 @@ namespace NoRServer.Handle
                     eventData.Parameters.Add((byte)EGameFinish.PlayerName, peer.Username);
                 }
                 foe.SendEvent(eventData, foe.sendParameters);
+
+                //在他敌人的敌人列表中，清除它
+                foe.FoePeer.Remove(peer);
             }
+            //清除掉它的敌人
+            peer.FoePeer.RemoveRange(0, peer.FoePeer.Count);
+
         }
     }
 }

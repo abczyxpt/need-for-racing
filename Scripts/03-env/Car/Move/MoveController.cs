@@ -68,9 +68,7 @@ public class MoveController : MonoBehaviour {
         wheelColliderRL = this.transform.Find("WheelRL/DiscBrakeRL/WheelColliderRL").GetComponent<WheelCollider>();
         wheelColliderFR = this.transform.Find("WheelFR/DiscBrakeFR/WheelColliderFR").GetComponent<WheelCollider>();
         wheelColliderRR = this.transform.Find("WheelRR/DiscBrakeRR/WheelColliderRR").GetComponent<WheelCollider>();
-
-        print(wheelColliderFL.transform.root.name);
-
+        
         wheelModeFL = this.transform.Find("WheelFL/DiscBrakeFL/WheelFL.2").transform;
         wheelModeFR = this.transform.Find("WheelFR/DiscBrakeFR/WheelFR.2").transform;
         wheelModeRL = this.transform.Find("WheelRL/DiscBrakeRL/WheelRL.2").transform;

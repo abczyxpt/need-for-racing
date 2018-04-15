@@ -22,6 +22,8 @@ public class TimeCountLabel : MonoBehaviour {
 
     private void FinishDisplay(Notification notification)
     {
+        isStartCount = false;
+        StopCoroutine(StartCount());
         GameFinishNF nf = notification.parm as GameFinishNF;
         if (nf.isWin)
         {
@@ -36,7 +38,7 @@ public class TimeCountLabel : MonoBehaviour {
 
     private IEnumerator LoadScence()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(5f);
         SceneManager.LoadScene((int)ScenceEnum.StartScence);
     }
     
@@ -86,6 +88,6 @@ public class TimeCountLabel : MonoBehaviour {
         StartCountNF startCount = notification.parm as StartCountNF;
         this.countNumber = startCount.countNum;
         isStartCount = startCount.isStartCount;
-        print("startTime");
+        //print("startTime");
     }
 }

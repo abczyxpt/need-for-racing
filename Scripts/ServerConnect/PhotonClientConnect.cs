@@ -52,6 +52,7 @@ public class PhotonClientConnect:MonoBehaviour,IPhotonPeerListener{
         photonPeer.Connect(udpAddress, appName);
     }
 
+  
 
     private void Update()
     {

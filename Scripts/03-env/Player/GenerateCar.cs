@@ -72,7 +72,7 @@ public class GenerateCar : MonoBehaviour {
                 carPerfab = carPerfab1;
                 break;
         }
-        print(carPerfab.name);
+        //print(carPerfab.name);
         GameObject go = GameObject.Instantiate(carPerfab, pst.position, pst.rotation);
         go.tag = "FoeCar";
         bool isLocal = false;

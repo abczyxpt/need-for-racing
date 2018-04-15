@@ -68,8 +68,8 @@ public class MatchingRequest :ClientRequest {
                         {
                             playerList.Add(new PlayerList
                             {
-                                PlayerCar = player0Car.ToString(),
-                                PlayerName = player0Name.ToString()
+                                PlayerCar = player3Car.ToString(),
+                                PlayerName = player3Name.ToString()
                             });
                         }
                     }

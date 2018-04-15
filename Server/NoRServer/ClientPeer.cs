@@ -35,6 +35,10 @@ namespace NoRServer
         //服务器断开后工作
         protected override void OnDisconnect(DisconnectReason reasonCode, string reasonDetail)
         {
+            //如果玩家在对战中，那么就进行认输操作
+            if(FoePeer.Count != 0)
+                PlayerDefeat(); 
+
             LogInit.Log.Info("客户端断开链接");
             FoePeer.Clear();
             NoRServer.Get.PeerFindGame(this, MatchingCount);
@@ -42,6 +46,7 @@ namespace NoRServer
             //更改在线状态
             UserManager.Get.ChangeLoading(Username, false);
         }
+
 
         //服务器收到客户端请求
         protected override void OnOperationRequest(OperationRequest operationRequest, SendParameters sendParameters)
@@ -99,6 +104,28 @@ namespace NoRServer
             handle.OnOperationRequest(operationRequest, sendParameters, this);
         }
 
+
+        private void PlayerDefeat()
+        {
+            foreach (var foe in this.FoePeer)
+            {
+                EventData eventData = new EventData
+                {
+                    Code = (byte)EOperationCode.GameFinish,
+                    Parameters = new Dictionary<byte, object>
+                     {
+                        {(byte)EGameFinish.Win,false },
+                        {(byte)EGameFinish.PlayerName, this.Username }
+                     }
+                };
+                foe.SendEvent(eventData, foe.sendParameters);
+
+                //在他敌人的敌人列表中，清除它
+                foe.FoePeer.Remove(this);
+            }
+            //清除掉它的敌人
+            this.FoePeer.RemoveRange(0, this.FoePeer.Count);
+        }
         
     }
 }

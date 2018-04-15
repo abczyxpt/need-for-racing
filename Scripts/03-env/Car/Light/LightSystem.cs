@@ -45,14 +45,15 @@ public class LightSystem : MonoBehaviour {
 
     private void InitializeLigt()
     {
-        switch (PlayerController.Get.CurplayerCar)
+        
+        switch (this.gameObject.name)
         {
-            case "Catamount":
+            case "Catamount(Clone)":
                 lights = this.transform.Find("Lights").gameObject;
                 lightRL = lights.transform.Find("LightRL").GetComponent<Light>();
                 lightRR = lights.transform.Find("LightRR").GetComponent<Light>();
                 break;
-            case "SportCar":
+            case "SportCar(Clone)":
                 //lights = this.transform.Find("Lights").gameObject;
                 brakeLights = this.transform.Find("Lights/BrakeLights").gameObject;
                 tailLights = this.transform.Find("Lights/TailLights").gameObject;
@@ -80,8 +81,8 @@ public class LightSystem : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-                
-        if (PlayerController.Get.CurplayerCar == "SportCar")
+        
+        if (this.gameObject.name == "SportCar(Clone)")
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -282,15 +283,15 @@ public class LightSystem : MonoBehaviour {
         //判断是否是对当前车辆进行控制
         if (carLightNf.curName != this.GetComponent<MoveController>().userName) return;
         isLighting = carLightNf.isLigting;
-
         
-        switch (PlayerController.Get.CurplayerCar)
+
+        switch (this.gameObject.name)
         {
-            case "Catamount":
+            case "Catamount(Clone)":
                 lightRL.color = carLightNf.color;
                 lightRR.color = carLightNf.color;
                 break;
-            case "SportCar":
+            case "SportCar(Clone)":
                 //如果是刹车的红灯
                 if (carLightNf.color == Color.red)
                 {
@@ -309,9 +310,9 @@ public class LightSystem : MonoBehaviour {
 
     private void CloseLight()
     {
-        switch (PlayerController.Get.CurplayerCar)
+        switch (this.gameObject.name)
         {
-            case "SportCar":
+            case "SportCar(Clone)":
                 brakeLights.SetActive(false);
                 reverseLights.SetActive(false);
                 break;

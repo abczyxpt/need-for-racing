@@ -151,7 +151,10 @@ public class FinishController : MonoBehaviour {
     public void OnSdemSliderChange()
     {
         if (sdeffectSlider.value >= 0 && sdeffectSlider.value <= 1)
+        {
             playerCar.GetComponent<AudioSource>().volume = sdeffectSlider.value;
+            playerCar.transform.Find("WheelFL/DiscBrakeFL").GetComponent<AudioSource>().volume = sdeffectSlider.value;
+        }
     }
 
     public void YesButtonClick()

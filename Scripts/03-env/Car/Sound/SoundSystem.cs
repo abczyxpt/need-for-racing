@@ -9,11 +9,11 @@ public class SoundSystem : MonoBehaviour {
 
     private bool isBraking;                 //判断是否在刹车状态
     private bool isRunning;                 //判断是否在奔跑状态
-
-
+    
 
     // Use this for initialization
     void Start() {
+
         engineAudioSource = this.transform.GetComponent<AudioSource>();
         
         brakeAudioSource = this.transform.Find("WheelFL/DiscBrakeFL").GetComponent<AudioSource>();
@@ -24,9 +24,11 @@ public class SoundSystem : MonoBehaviour {
 
     private void Update()
     {
+        
         //刹车音效
         brakeAudioSource.enabled = isBraking;
         isBraking = false;
+       
     }
 
     private void OnDestroy()
@@ -56,6 +58,6 @@ public class SoundSystem : MonoBehaviour {
         CarRunNF carRunNF = notification.parm as CarRunNF;
         if (carRunNF.curName != this.GetComponent<MoveController>().userName) return;
         engineAudioSource.pitch = carRunNF.engineSoundPith;
-
     }
+    
 }

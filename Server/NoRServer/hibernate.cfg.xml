@@ -13,7 +13,7 @@
     
     <!--连接字符串-->
     <property name="connection.connection_string">
-      Server=localhost;Database= norgamedb;User ID=nor;Password=a1357911;
+      Server=localhost;Database= norgamedb;User ID=nor;Password=aaaaaaaa;
     </property>
     <!--是否在调试的时候打印Sql语句-->
     <property name="show_sql">true</property>
